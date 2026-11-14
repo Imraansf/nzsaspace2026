@@ -1090,7 +1090,7 @@ export const DeepSpaceExplorer: React.FC<DeepSpaceExplorerProps> = React.memo(({
   };
 
   return (
-    <div className="relative w-full h-full select-none overflow-hidden bg-[#050608]">
+    <div className="relative w-full h-full select-none overflow-hidden bg-[#06090F]">
       {/* 1. Fullscreen 3D Solar System Orrery Canvas */}
       <div
         ref={mountRef}
@@ -1108,59 +1108,59 @@ export const DeepSpaceExplorer: React.FC<DeepSpaceExplorerProps> = React.memo(({
         }`}
       >
         {/* Main Control Panel */}
-        <div className="bg-[#fffdf7] border-[3px] border-[#1e1b4b] rounded-2xl p-3 shadow-[0_6px_0_#1e1b4b] flex flex-col gap-2.5 text-[11px] leading-[12px] text-[#1e1b4b]">
+        <div className="bg-[rgba(10,14,23,0.78)] backdrop-blur-md border border-[rgba(248,250,252,0.16)] rounded-2xl p-3 shadow-lg flex flex-col gap-2.5 text-[11px] leading-[12px] text-[#F8FAFC]">
           {/* Header */}
-          <div className="flex items-center justify-between pb-1.5 border-b-2 border-[#1e1b4b]/15">
-            <span className="flex items-center gap-1.5 font-black text-[#1e1b4b] uppercase tracking-widest text-[9px] font-mono">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#ea580c]" />
-              System Orrery
+          <div className="flex items-center justify-between pb-1.5 border-b border-[rgba(248,250,252,0.14)]">
+            <span className="flex items-center gap-1.5 font-['Chakra_Petch'] font-bold text-[#F8FAFC] uppercase tracking-wider text-[11px]">
+              <span className="w-2 h-2 rounded-full bg-[#38BDF8]" />
+              SYSTEM ORBIT
             </span>
             <button 
               onClick={() => setIsDockVisible(false)}
-              className="group flex items-center gap-1.5 p-1.5 hover:bg-[#fef08a] rounded-xl text-[#1e1b4b]/70 hover:text-[#1e1b4b] transition-all active:scale-95"
+              className="group flex items-center gap-1.5 p-1 hover:bg-[rgba(248,250,252,0.1)] rounded-lg text-[#94A3B8] hover:text-[#F8FAFC] transition-all active:scale-95"
               aria-label="Close panel"
             >
-              <span className="text-[8px] font-black font-mono tracking-tighter opacity-0 group-hover:opacity-100 transition-opacity hidden sm:inline">CLOSE</span>
-              <X className="w-4 h-4" />
+              <span className="text-[8px] font-bold font-mono tracking-tighter opacity-0 group-hover:opacity-100 transition-opacity hidden sm:inline text-[#38BDF8]">CLOSE</span>
+              <X className="w-3.5 h-3.5" />
             </button>
           </div>
 
           {/* Preset Buttons */}
-          <div className="grid grid-cols-2 gap-1.5 font-sans">
+          <div className="grid grid-cols-2 gap-1.5">
             <button
               onClick={() => handleFlyToPreset('solar_system')}
-              className="px-3 py-2 rounded-xl bg-[#fffbeb] hover:bg-[#fde047] text-[#1e1b4b] border-2 border-[#1e1b4b] shadow-[0_2px_0_#1e1b4b] text-[10px] font-extrabold transition-all active:translate-y-0.5 active:shadow-none"
+              className="font-['Chakra_Petch'] px-3 py-2 rounded-xl bg-[rgba(15,23,42,0.65)] hover:bg-[rgba(248,250,252,0.12)] text-[#F8FAFC] border border-[rgba(248,250,252,0.16)] hover:border-[rgba(248,250,252,0.3)] text-[10px] font-semibold transition-all active:translate-y-0.5"
             >
               Full System
             </button>
             <button
               onClick={() => handleFlyToPreset('inner')}
-              className="px-3 py-2 rounded-xl bg-[#fffbeb] hover:bg-[#fde047] text-[#1e1b4b] border-2 border-[#1e1b4b] shadow-[0_2px_0_#1e1b4b] text-[10px] font-extrabold transition-all active:translate-y-0.5 active:shadow-none"
+              className="font-['Chakra_Petch'] px-3 py-2 rounded-xl bg-[rgba(15,23,42,0.65)] hover:bg-[rgba(248,250,252,0.12)] text-[#F8FAFC] border border-[rgba(248,250,252,0.16)] hover:border-[rgba(248,250,252,0.3)] text-[10px] font-semibold transition-all active:translate-y-0.5"
             >
               Inner Worlds
             </button>
             <button
               onClick={() => handleFlyToPreset('gas_giants')}
-              className="px-3 py-2 rounded-xl bg-[#fffbeb] hover:bg-[#fde047] text-[#1e1b4b] border-2 border-[#1e1b4b] shadow-[0_2px_0_#1e1b4b] text-[10px] font-extrabold transition-all active:translate-y-0.5 active:shadow-none"
+              className="font-['Chakra_Petch'] px-3 py-2 rounded-xl bg-[rgba(15,23,42,0.65)] hover:bg-[rgba(248,250,252,0.12)] text-[#F8FAFC] border border-[rgba(248,250,252,0.16)] hover:border-[rgba(248,250,252,0.3)] text-[10px] font-semibold transition-all active:translate-y-0.5"
             >
               Gas Giants
             </button>
             <button
               onClick={() => handleFlyToPreset('interstellar')}
-              className="px-3 py-2 rounded-xl bg-[#fffbeb] hover:bg-[#fde047] text-[#1e1b4b] border-2 border-[#1e1b4b] shadow-[0_2px_0_#1e1b4b] text-[10px] font-extrabold transition-all active:translate-y-0.5 active:shadow-none"
+              className="font-['Chakra_Petch'] px-3 py-2 rounded-xl bg-[rgba(15,23,42,0.65)] hover:bg-[rgba(248,250,252,0.12)] text-[#F8FAFC] border border-[rgba(248,250,252,0.16)] hover:border-[rgba(248,250,252,0.3)] text-[10px] font-semibold transition-all active:translate-y-0.5"
             >
               Interstellar
             </button>
           </div>
 
           <div className="flex items-center justify-between px-1">
-            <span className="text-[10px] text-[#b45309] font-bold font-mono uppercase tracking-widest">Display Layers</span>
+            <span className="text-[10px] text-[#94A3B8] font-bold font-mono uppercase tracking-widest">Display Layers</span>
             <button
               onClick={() => setShowOrbits(!showOrbits)}
-              className={`p-1.5 rounded-lg border-2 transition-colors ${
+              className={`p-1.5 rounded-lg border transition-colors ${
                 showOrbits
-                  ? 'text-[#1e1b4b] bg-[#facc15] border-[#1e1b4b]'
-                  : 'text-[#1e1b4b]/50 bg-[#fff7ed] border-[#1e1b4b]/25'
+                  ? 'text-[#0A0E17] bg-[#38BDF8] border-[#38BDF8]'
+                  : 'text-[#94A3B8] bg-[rgba(15,23,42,0.65)] border-[rgba(248,250,252,0.16)] hover:text-[#F8FAFC] hover:border-[rgba(248,250,252,0.3)]'
               }`}
               title="Toggle Orbits & Trajectories"
             >
@@ -1180,7 +1180,7 @@ export const DeepSpaceExplorer: React.FC<DeepSpaceExplorerProps> = React.memo(({
                   targetZoomDistanceRef.current = Math.max(36, match.pos.length() * 1.3);
                 }
               }}
-              className="flex items-center justify-center gap-2 w-full py-2 px-3 rounded-xl bg-[#fb923c] hover:bg-[#fdba74] text-[#1e1b4b] border-2 border-[#1e1b4b] shadow-[0_3px_0_#1e1b4b] text-[10px] font-black uppercase tracking-wide transition-all active:translate-y-0.5 active:shadow-none"
+              className="font-['Chakra_Petch'] flex items-center justify-center gap-2 w-full py-2 px-3 rounded-xl bg-[#38BDF8] hover:bg-[#7DD3FC] text-[#0A0E17] border border-[#38BDF8] text-[10px] font-bold uppercase tracking-wide transition-all active:translate-y-0.5"
             >
               <Crosshair className="w-3.5 h-3.5" />
               <span>Target Focus</span>
@@ -1188,12 +1188,12 @@ export const DeepSpaceExplorer: React.FC<DeepSpaceExplorerProps> = React.memo(({
           )}
 
           {/* Quick Planet Selector */}
-          <div className="pt-2 border-t-2 border-[#1e1b4b]/15">
+          <div className="pt-2 border-t border-[rgba(248,250,252,0.14)]">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-[10px] text-[#b45309] font-bold uppercase tracking-widest">Inspect</span>
+              <span className="font-['Chakra_Petch'] text-[10px] text-[#94A3B8] font-bold uppercase tracking-widest">Inspect</span>
               <button
                 onClick={() => handleFlyToPreset('sun')}
-                className="text-[#c2410c] hover:text-[#9a3412] text-[10px] font-extrabold underline-offset-2 hover:underline"
+                className="font-['Chakra_Petch'] text-[#F8FAFC] hover:text-[#38BDF8] text-[10px] font-bold underline-offset-2 hover:underline transition-colors"
               >
                 Sol (Sun)
               </button>
@@ -1205,14 +1205,14 @@ export const DeepSpaceExplorer: React.FC<DeepSpaceExplorerProps> = React.memo(({
                   <button
                     key={planet.id}
                     onClick={() => handleFocusPlanet(planet)}
-                    className={`px-3 py-1 rounded-full text-[10px] shrink-0 transition-all flex items-center gap-1.5 border-2 ${
+                    className={`font-['Chakra_Petch'] px-3 py-1 rounded-full text-[10px] shrink-0 transition-all flex items-center gap-1.5 border ${
                       isSelected
-                        ? 'bg-[#fb923c] border-[#1e1b4b] text-[#1e1b4b] font-black shadow-[0_2px_0_#1e1b4b] scale-105'
-                        : 'bg-[#fff7ed] border-[#1e1b4b]/25 text-[#1e1b4b] font-bold hover:bg-[#fef08a]'
+                        ? 'bg-[#38BDF8] border-[#38BDF8] text-[#0A0E17] font-bold'
+                        : 'bg-[rgba(15,23,42,0.65)] border-[rgba(248,250,252,0.16)] text-[#F8FAFC] font-semibold hover:bg-[rgba(248,250,252,0.12)] hover:border-[rgba(248,250,252,0.3)]'
                     }`}
                     title={`Lock camera to follow ${planet.name} as it orbits`}
                   >
-                    {isSelected && <span className="w-1.5 h-1.5 rounded-full bg-[#1e1b4b]" />}
+                    {isSelected && <span className="w-1.5 h-1.5 rounded-full bg-[#0A0E17]" />}
                     <span>{planet.name.split(' ')[0]}</span>
                   </button>
                 );
@@ -1221,13 +1221,13 @@ export const DeepSpaceExplorer: React.FC<DeepSpaceExplorerProps> = React.memo(({
           </div>
 
           {/* Astrodynamics Simulation Time Controls */}
-          <div className="pt-2 border-t-2 border-[#1e1b4b]/15 flex flex-col gap-2">
+          <div className="pt-2 border-t border-[rgba(248,250,252,0.14)] flex flex-col gap-2">
             <div className="flex items-center justify-between">
-              <span className="flex items-center gap-2 text-[#1e1b4b]">
-                <Calendar className="w-3.5 h-3.5 text-[#ea580c]" />
-                <span className="font-black text-[#1e1b4b]">{currentSimDate}</span>
+              <span className="flex items-center gap-2 text-[#F8FAFC]">
+                <Calendar className="w-3.5 h-3.5 text-[#38BDF8]" />
+                <span className="font-mono font-bold text-[#F8FAFC]">{currentSimDate}</span>
               </span>
-              <span className="text-[10px] text-[#b45309] font-bold font-mono tabular-nums uppercase tracking-widest">
+              <span className="text-[10px] text-[#38BDF8] font-bold font-mono tabular-nums uppercase tracking-widest">
                 {currentYearNumber.toFixed(1)} CE
               </span>
             </div>
@@ -1240,7 +1240,7 @@ export const DeepSpaceExplorer: React.FC<DeepSpaceExplorerProps> = React.memo(({
               step="0.1"
               value={currentYearNumber}
               onChange={(e) => handleTimeScrub(parseFloat(e.target.value))}
-              className="w-full h-1.5 bg-[#fde68a] rounded-full appearance-none cursor-pointer accent-[#ea580c] border border-[#1e1b4b]/25"
+              className="w-full h-1.5 bg-[rgba(6,9,15,0.6)] rounded-full appearance-none cursor-pointer accent-[#38BDF8] border border-[rgba(248,250,252,0.16)]"
             />
 
             {/* Simulation Speed & Controls */}
@@ -1248,20 +1248,20 @@ export const DeepSpaceExplorer: React.FC<DeepSpaceExplorerProps> = React.memo(({
               <div className="flex items-center gap-1">
                 <button
                   onClick={() => setSimSpeed(simSpeed === 0 ? 1 : 0)}
-                  className="p-1.5 rounded-full bg-[#fffbeb] hover:bg-[#fde047] border-2 border-[#1e1b4b] text-[#1e1b4b] transition-all"
+                  className="p-1.5 rounded-full bg-[rgba(15,23,42,0.65)] hover:bg-[#38BDF8] border border-[rgba(248,250,252,0.16)] hover:border-[#38BDF8] text-[#F8FAFC] hover:text-[#0A0E17] transition-all"
                 >
-                  {simSpeed === 0 ? <Play className="w-3.5 h-3.5 text-[#c2410c]" /> : <Pause className="w-3.5 h-3.5" />}
+                  {simSpeed === 0 ? <Play className="w-3.5 h-3.5" /> : <Pause className="w-3.5 h-3.5" />}
                 </button>
 
-                <div className="flex items-center bg-[#fff7ed] p-0.5 rounded-full border-2 border-[#1e1b4b] ml-1">
+                <div className="flex items-center bg-[rgba(15,23,42,0.65)] p-0.5 rounded-full border border-[rgba(248,250,252,0.16)] ml-1">
                   {[1, 5, 25].map((speed) => (
                     <button
                       key={speed}
                       onClick={() => setSimSpeed(speed)}
-                      className={`px-2 py-0.5 rounded-full text-[9px] font-black transition-all ${
+                      className={`font-mono px-2 py-0.5 rounded-full text-[9px] font-bold transition-all ${
                         simSpeed === speed
-                          ? 'bg-[#facc15] text-[#1e1b4b] shadow-sm'
-                          : 'text-[#1e1b4b]/60 hover:text-[#1e1b4b]'
+                          ? 'bg-[#38BDF8] text-[#0A0E17]'
+                          : 'text-[#94A3B8] hover:text-[#F8FAFC]'
                       }`}
                     >
                       {speed}×
@@ -1272,7 +1272,7 @@ export const DeepSpaceExplorer: React.FC<DeepSpaceExplorerProps> = React.memo(({
 
               <button
                 onClick={() => handleTimeScrub(BASE_YEAR)}
-                className="p-1.5 rounded-full bg-[#fffbeb] hover:bg-[#fde047] border-2 border-[#1e1b4b] text-[#1e1b4b] transition-all"
+                className="p-1.5 rounded-full bg-[rgba(15,23,42,0.65)] hover:bg-[#38BDF8] border border-[rgba(248,250,252,0.16)] hover:border-[#38BDF8] text-[#F8FAFC] hover:text-[#0A0E17] transition-all"
                 title="Reset to 2026"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
@@ -1280,12 +1280,13 @@ export const DeepSpaceExplorer: React.FC<DeepSpaceExplorerProps> = React.memo(({
             </div>
           </div>
         </div>
+
         {/* Live Telemetry Display */}
         {(selectedArtifact || (selectedPlanet && selectedPlanet.id !== 'sun')) && liveTelemetry && (
-          <div className="bg-[#fffdf7] border-[3px] border-[#1e1b4b] rounded-2xl p-4 shadow-[0_6px_0_#1e1b4b] flex flex-col gap-2 animate-in slide-in-from-left-2 duration-300 text-[12px] leading-[13px] text-[#1e1b4b]">
-            <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest text-[#b45309] border-b-2 border-[#1e1b4b]/15 pb-2">
+          <div className="bg-[rgba(10,14,23,0.78)] backdrop-blur-md border border-[rgba(248,250,252,0.16)] rounded-2xl p-4 shadow-lg flex flex-col gap-2 animate-in slide-in-from-left-2 duration-300 text-[12px] leading-[13px] text-[#F8FAFC]">
+            <div className="flex items-center justify-between text-[10px] font-bold font-['Chakra_Petch'] uppercase tracking-widest text-[#F8FAFC] border-b border-[rgba(248,250,252,0.14)] pb-2">
               <span className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#ea580c]" />
+                <span className="w-2 h-2 rounded-full bg-[#38BDF8]" />
                 Live Telemetry
               </span>
               <button
@@ -1296,7 +1297,7 @@ export const DeepSpaceExplorer: React.FC<DeepSpaceExplorerProps> = React.memo(({
                   selectedArtifactRef.current = null;
                   targetLookAtRef.current.set(0, 0, 0);
                 }}
-                className="p-1.5 hover:bg-[#fef08a] rounded-lg text-[#1e1b4b] transition-colors"
+                className="p-1.5 hover:bg-[rgba(248,250,252,0.1)] rounded-lg text-[#94A3B8] hover:text-[#F8FAFC] transition-colors"
                 aria-label="Close telemetry"
               >
                 <X className="w-4 h-4" />
@@ -1305,22 +1306,22 @@ export const DeepSpaceExplorer: React.FC<DeepSpaceExplorerProps> = React.memo(({
             
             <div className="space-y-3 pt-1">
               <div>
-                <h4 className="text-xs font-black mb-0.5 text-[#1e1b4b]">
+                <h4 className="font-['Chakra_Petch'] text-xs font-bold mb-0.5 text-[#F8FAFC]">
                   {selectedArtifact ? selectedArtifact.name : selectedPlanet?.name}
                 </h4>
-                <p className="text-[10px] text-[#b45309] font-bold tracking-tight">
+                <p className="font-['Space_Grotesk'] text-[10px] text-[#94A3B8] font-medium tracking-tight">
                   {selectedArtifact ? selectedArtifact.trajectoryOrRegion : 'Planetary Orbit'}
                 </p>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-0.5">
-                  <span className="text-[9px] text-[#b45309] font-bold uppercase tracking-wider">Velocity</span>
-                  <p className="text-xs font-black font-mono tabular-nums text-[#1e1b4b]">{liveTelemetry.velocityKmS} km/s</p>
+                  <span className="text-[9px] text-[#94A3B8] font-mono font-bold uppercase tracking-wider">Velocity</span>
+                  <p className="text-xs font-bold font-mono tabular-nums text-[#38BDF8]">{liveTelemetry.velocityKmS} km/s</p>
                 </div>
                 <div className="space-y-0.5">
-                  <span className="text-[9px] text-[#b45309] font-bold uppercase tracking-wider">Distance</span>
-                  <p className="text-xs font-black font-mono tabular-nums text-[#1e1b4b]">{liveTelemetry.distanceAU} AU</p>
+                  <span className="text-[9px] text-[#94A3B8] font-mono font-bold uppercase tracking-wider">Distance</span>
+                  <p className="text-xs font-bold font-mono tabular-nums text-[#F8FAFC]">{liveTelemetry.distanceAU} AU</p>
                 </div>
               </div>
             </div>
@@ -1328,12 +1329,12 @@ export const DeepSpaceExplorer: React.FC<DeepSpaceExplorerProps> = React.memo(({
         )}
 
         {/* Minimal Engine Info Shortcut */}
-        <div className="bg-[#fffbeb] border-2 border-[#1e1b4b] shadow-[0_4px_0_#1e1b4b] rounded-full px-3.5 py-1.5 flex items-center justify-between text-[10px] font-black text-[#1e1b4b]">
+        <div className="bg-[rgba(10,14,23,0.78)] backdrop-blur-md border border-[rgba(248,250,252,0.16)] shadow-lg rounded-full px-3.5 py-1.5 flex items-center justify-between text-[10px] font-bold text-[#F8FAFC]">
           <button
             onClick={() => setShowCoordinateInfo(true)}
-            className="hover:text-[#c2410c] transition-colors flex items-center gap-1.5"
+            className="font-['Chakra_Petch'] hover:text-[#38BDF8] transition-colors flex items-center gap-1.5"
           >
-            <div className="w-1.5 h-1.5 rounded-full bg-[#ea580c]" />
+            <div className="w-1.5 h-1.5 rounded-full bg-[#38BDF8]" />
             <span>Astrodynamics Engine</span>
           </button>
         </div>
@@ -1341,13 +1342,13 @@ export const DeepSpaceExplorer: React.FC<DeepSpaceExplorerProps> = React.memo(({
 
       {/* 3. Floating Planetary Spec Card */}
       {selectedPlanet && (
-        <div className="absolute top-16 right-4 z-30 max-w-sm w-full bg-[#1e1f20]/95 border border-white/10 rounded-2xl p-5 shadow-2xl backdrop-blur-xl animate-in fade-in slide-in-from-right-4 text-zinc-100">
-          <div className="flex items-start justify-between gap-4 border-b border-white/5 pb-3">
+        <div className="absolute top-16 right-4 z-30 max-w-sm w-full bg-[rgba(10,14,23,0.82)] border border-[rgba(248,250,252,0.16)] rounded-2xl p-5 shadow-xl backdrop-blur-md animate-in fade-in slide-in-from-right-4 text-[#F8FAFC]">
+          <div className="flex items-start justify-between gap-4 border-b border-[rgba(248,250,252,0.14)] pb-3">
             <div>
-              <span className="text-[10px] font-medium uppercase tracking-widest text-blue-400 block mb-1">
+              <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#38BDF8] block mb-1">
                 {selectedPlanet.category.replace('_', ' ')}
               </span>
-              <h3 className="text-lg font-semibold text-white tracking-tight">
+              <h3 className="font-['Chakra_Petch'] text-lg font-bold text-[#F8FAFC] tracking-tight">
                 {selectedPlanet.name}
               </h3>
             </div>
@@ -1357,14 +1358,14 @@ export const DeepSpaceExplorer: React.FC<DeepSpaceExplorerProps> = React.memo(({
                 selectedPlanetRef.current = null;
                 targetLookAtRef.current.set(0, 0, 0);
               }}
-              className="p-2 rounded-xl hover:bg-white/10 text-zinc-400 hover:text-white transition-colors active:scale-90"
+              className="p-2 rounded-xl hover:bg-[rgba(248,250,252,0.1)] text-[#94A3B8] hover:text-[#F8FAFC] transition-colors active:scale-90"
               aria-label="Close planet info"
             >
               <X className="w-5 h-5" />
             </button>
           </div>
 
-          <p className="text-xs text-zinc-300 mt-3 leading-relaxed">
+          <p className="font-['Space_Grotesk'] text-xs text-[#94A3B8] mt-3 leading-relaxed">
             {selectedPlanet.description}
           </p>
 
@@ -1372,25 +1373,25 @@ export const DeepSpaceExplorer: React.FC<DeepSpaceExplorerProps> = React.memo(({
           <div className="grid grid-cols-2 gap-3 mt-4">
             {[
               { label: 'Distance', value: liveTelemetry && selectedPlanet.id !== 'sun' ? `${liveTelemetry.distanceAU} AU` : `${selectedPlanet.semiMajorAxisAU} AU` },
-              { label: 'Velocity', value: liveTelemetry && selectedPlanet.id !== 'sun' ? `${liveTelemetry.velocityKmS} km/s` : 'Orbital Center', color: 'text-blue-400' },
+              { label: 'Velocity', value: liveTelemetry && selectedPlanet.id !== 'sun' ? `${liveTelemetry.velocityKmS} km/s` : 'Orbital Center', color: 'text-[#38BDF8]' },
               { label: 'Eccentricity', value: selectedPlanet.eccentricity },
               { label: 'Axial Tilt', value: `${selectedPlanet.axialTiltDeg}°` },
             ].map((metric, i) => (
-              <div key={i} className="bg-white/5 rounded-xl p-2.5 border border-white/5">
-                <span className="text-[9px] text-zinc-500 uppercase tracking-wider block mb-0.5">{metric.label}</span>
-                <span className={`text-[11px] font-semibold ${metric.color || 'text-zinc-200'}`}>{metric.value}</span>
+              <div key={i} className="bg-[rgba(15,23,42,0.65)] rounded-xl p-2.5 border border-[rgba(248,250,252,0.14)]">
+                <span className="text-[9px] font-mono text-[#94A3B8] uppercase tracking-wider block mb-0.5">{metric.label}</span>
+                <span className={`text-[11px] font-semibold font-mono tabular-nums ${metric.color || 'text-[#F8FAFC]'}`}>{metric.value}</span>
               </div>
             ))}
           </div>
 
           {/* Associated Relics */}
-          <div className="mt-4 pt-4 border-t border-white/5">
-            <span className="text-[10px] uppercase font-bold tracking-widest text-zinc-500 block mb-2">
+          <div className="mt-4 pt-4 border-t border-[rgba(248,250,252,0.14)]">
+            <span className="font-['Chakra_Petch'] text-[10px] uppercase font-bold tracking-widest text-[#94A3B8] block mb-2">
               Mission Hardware
             </span>
             <div className="flex flex-wrap gap-1.5">
               {selectedPlanet.relicsPresent.map((relic, idx) => (
-                <span key={idx} className="px-2 py-0.5 rounded-full bg-white/5 border border-white/5 text-[10px] text-zinc-300">
+                <span key={idx} className="font-['Space_Grotesk'] px-2 py-0.5 rounded-full bg-[rgba(15,23,42,0.65)] border border-[rgba(248,250,252,0.16)] text-[10px] text-[#F8FAFC]">
                   {relic}
                 </span>
               ))}
@@ -1401,7 +1402,7 @@ export const DeepSpaceExplorer: React.FC<DeepSpaceExplorerProps> = React.memo(({
           {(selectedPlanet.id === 'mars' || selectedPlanet.id === 'earth') && onSwitchBody && (
             <button
               onClick={() => onSwitchBody(selectedPlanet.id === 'mars' ? 'mars' : 'moon')}
-              className="mt-4 w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-blue-500 hover:bg-blue-600 text-white text-xs font-semibold shadow-lg shadow-blue-500/20 transition-all active:scale-[0.98]"
+              className="font-['Chakra_Petch'] mt-4 w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[#38BDF8] hover:bg-[#7DD3FC] text-[#0A0E17] text-xs font-bold transition-all active:scale-[0.98]"
             >
               <span>Inspect Surface</span>
               <ChevronRight className="w-4 h-4" />
@@ -1413,18 +1414,18 @@ export const DeepSpaceExplorer: React.FC<DeepSpaceExplorerProps> = React.memo(({
       {/* 3. Floating Restore Dock Button */}
       <button
         onClick={() => setIsDockVisible(true)}
-        className={`absolute top-16 left-4 z-20 flex items-center gap-2.5 px-4 py-3 rounded-2xl bg-[#1e1f20]/95 border border-white/10 text-white shadow-2xl backdrop-blur-xl transition-all duration-500 ease-in-out active:scale-95 ${
+        className={`font-['Chakra_Petch'] absolute top-16 left-4 z-20 flex items-center gap-2.5 px-4 py-3 rounded-2xl bg-[rgba(10,14,23,0.78)] border border-[rgba(248,250,252,0.16)] text-[#F8FAFC] shadow-lg backdrop-blur-md transition-all duration-500 ease-in-out active:scale-95 ${
           isDockVisible ? '-translate-x-32 opacity-0' : 'translate-x-0 opacity-100'
         }`}
         aria-label="Restore controls"
       >
-        <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
-        <span className="text-[10px] font-bold font-mono tracking-widest uppercase">Restore Controls</span>
-        <ChevronRight className="w-4 h-4 text-blue-400" />
+        <div className="w-2 h-2 rounded-full bg-[#38BDF8] animate-pulse" />
+        <span className="text-[10px] font-bold tracking-widest uppercase">Restore Controls</span>
+        <ChevronRight className="w-4 h-4 text-[#38BDF8]" />
       </button>
 
       {/* 4. Filter Category Tabs */}
-      <div className="absolute top-16 right-4 sm:right-auto sm:left-1/2 sm:-translate-x-1/2 z-20 pointer-events-auto flex items-center gap-1 bg-[#fffdf7] border-[3px] border-[#1e1b4b] p-1 rounded-2xl shadow-[0_5px_0_#1e1b4b] overflow-x-auto max-w-[calc(100vw-32px)]">
+      <div className="absolute top-16 right-4 sm:right-auto sm:left-1/2 sm:-translate-x-1/2 z-20 pointer-events-auto flex items-center gap-1 bg-[rgba(10,14,23,0.78)] backdrop-blur-md border border-[rgba(248,250,252,0.16)] p-1 rounded-2xl shadow-lg overflow-x-auto max-w-[calc(100vw-32px)]">
         {[
           { id: 'all', label: 'All', count: artifacts.length },
           {
@@ -1468,10 +1469,10 @@ export const DeepSpaceExplorer: React.FC<DeepSpaceExplorerProps> = React.memo(({
                 targetZoomDistanceRef.current = 50;
               }
             }}
-            className={`px-3.5 py-1.5 rounded-xl text-[10px] transition-all whitespace-nowrap ${
+            className={`font-['Chakra_Petch'] px-3.5 py-1.5 rounded-xl text-[10px] transition-all whitespace-nowrap border ${
               activeFilter === filter.id
-                ? 'bg-[#fb923c] text-[#1e1b4b] font-black border-2 border-[#1e1b4b] shadow-[0_2px_0_#1e1b4b]'
-                : 'text-[#1e1b4b]/80 font-bold hover:text-[#1e1b4b] hover:bg-[#fef08a]/70 border-2 border-transparent'
+                ? 'bg-[#38BDF8] text-[#0A0E17] font-bold border-[#38BDF8]'
+                : 'text-[#94A3B8] font-semibold hover:text-[#F8FAFC] hover:bg-[rgba(248,250,252,0.1)] border-transparent'
             }`}
           >
             {filter.label} ({filter.count})
@@ -1481,12 +1482,12 @@ export const DeepSpaceExplorer: React.FC<DeepSpaceExplorerProps> = React.memo(({
 
       {/* 4B. Active Planetary & Trajectory Follow-Cam Banner */}
       {(selectedPlanet || selectedArtifact) && (
-        <div className="absolute top-28 left-1/2 -translate-x-1/2 z-20 pointer-events-auto flex items-center gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-[#1e1f20]/95 border border-blue-500/30 text-white shadow-2xl backdrop-blur-xl animate-in fade-in slide-in-from-top-2">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
-          <span className="text-[10px] sm:text-[11px] font-semibold tracking-wide">
+        <div className="absolute top-28 left-1/2 -translate-x-1/2 z-20 pointer-events-auto flex items-center gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-[rgba(10,14,23,0.82)] border border-[rgba(248,250,252,0.16)] text-[#F8FAFC] shadow-lg backdrop-blur-md animate-in fade-in slide-in-from-top-2">
+          <span className="w-2 h-2 rounded-full bg-[#38BDF8] animate-pulse" />
+          <span className="font-['Chakra_Petch'] text-[10px] sm:text-[11px] font-semibold tracking-wide">
             Follow Cam: {selectedPlanet ? selectedPlanet.name : selectedArtifact?.name}
           </span>
-          <span className="text-[9px] font-mono uppercase text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded">
+          <span className="text-[9px] font-mono uppercase text-[#38BDF8] bg-[rgba(56,189,248,0.12)] border border-[rgba(56,189,248,0.3)] px-1.5 py-0.5 rounded">
             Live Locked
           </span>
           <button
@@ -1499,7 +1500,7 @@ export const DeepSpaceExplorer: React.FC<DeepSpaceExplorerProps> = React.memo(({
               targetLookAtRef.current.set(0, 0, 0);
               targetZoomDistanceRef.current = 105;
             }}
-            className="ml-0.5 p-1 hover:bg-white/10 rounded-full text-zinc-400 hover:text-white transition-colors"
+            className="ml-0.5 p-1 hover:bg-[rgba(248,250,252,0.1)] rounded-full text-[#94A3B8] hover:text-[#F8FAFC] transition-colors"
             title="Release Follow Cam and Return to Solar System Overview"
           >
             <X className="w-3.5 h-3.5" />
@@ -1509,30 +1510,30 @@ export const DeepSpaceExplorer: React.FC<DeepSpaceExplorerProps> = React.memo(({
 
       {/* 5. Hover preview tooltip */}
       {hoveredArtifact && (
-        <div className="absolute bottom-24 left-1/2 -translate-x-1/2 z-30 pointer-events-none bg-[#1e1f20]/95 border border-white/10 rounded-2xl px-4 py-3 shadow-2xl backdrop-blur-xl text-center max-w-xs animate-in fade-in zoom-in-95">
-          <div className="flex items-center justify-center gap-2 text-[10px] font-medium uppercase tracking-widest text-zinc-400">
+        <div className="absolute bottom-24 left-1/2 -translate-x-1/2 z-30 pointer-events-none bg-[rgba(10,14,23,0.88)] border border-[rgba(248,250,252,0.18)] rounded-2xl px-4 py-3 shadow-xl backdrop-blur-md text-center max-w-xs animate-in fade-in zoom-in-95">
+          <div className="flex items-center justify-center gap-2 text-[10px] font-mono uppercase tracking-widest text-[#38BDF8]">
             <span>{hoveredArtifact.nssdcaId}</span>
-            <span className="w-1 h-1 rounded-full bg-zinc-600" />
+            <span className="w-1 h-1 rounded-full bg-[#94A3B8]" />
             <span className="truncate">{hoveredArtifact.trajectoryOrRegion}</span>
           </div>
-          <h4 className="text-sm font-semibold text-white mt-1">
+          <h4 className="font-['Chakra_Petch'] text-sm font-bold text-[#F8FAFC] mt-1">
             {hoveredArtifact.name}
           </h4>
-          <p className="text-xs text-zinc-400 mt-1 line-clamp-1 italic">
+          <p className="font-['Space_Grotesk'] text-xs text-[#94A3B8] mt-1 line-clamp-1 italic">
             "{hoveredArtifact.story.headline}"
           </p>
         </div>
       )}
 
       {hoveredPlanet && !hoveredArtifact && (
-        <div className="absolute bottom-24 left-1/2 -translate-x-1/2 z-30 pointer-events-none bg-[#1e1f20]/95 border border-white/10 rounded-2xl px-4 py-3 shadow-2xl backdrop-blur-xl text-center max-w-xs animate-in fade-in zoom-in-95">
-          <span className="text-[10px] font-medium uppercase tracking-widest text-amber-400 block">
+        <div className="absolute bottom-24 left-1/2 -translate-x-1/2 z-30 pointer-events-none bg-[rgba(10,14,23,0.88)] border border-[rgba(248,250,252,0.18)] rounded-2xl px-4 py-3 shadow-xl backdrop-blur-md text-center max-w-xs animate-in fade-in zoom-in-95">
+          <span className="text-[10px] font-mono uppercase tracking-widest text-[#94A3B8] block">
             {hoveredPlanet.category.replace('_', ' ')}
           </span>
-          <h4 className="text-sm font-semibold text-white mt-1">
+          <h4 className="font-['Chakra_Petch'] text-sm font-bold text-[#F8FAFC] mt-1">
             {hoveredPlanet.name}
           </h4>
-          <span className="text-[10px] text-zinc-400 block mt-1">
+          <span className="text-[10px] text-[#38BDF8] block mt-1 font-mono tabular-nums">
             {hoveredPlanet.semiMajorAxisAU} AU Semi-Major Axis
           </span>
         </div>
@@ -1540,20 +1541,20 @@ export const DeepSpaceExplorer: React.FC<DeepSpaceExplorerProps> = React.memo(({
 
       {/* 6. Astrodynamics Specification Modal */}
       {showCoordinateInfo && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-in fade-in duration-300">
-          <div className="bg-[#1e1f20] border border-white/10 rounded-3xl p-6 max-w-lg w-full shadow-2xl animate-in zoom-in-95 text-zinc-100">
-            <div className="flex items-center justify-between pb-4 border-b border-white/5">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#06090F]/85 backdrop-blur-md p-4 animate-in fade-in duration-300">
+          <div className="bg-[rgba(10,14,23,0.92)] border border-[rgba(248,250,252,0.18)] rounded-3xl p-6 max-w-lg w-full shadow-2xl animate-in zoom-in-95 text-[#F8FAFC]">
+            <div className="flex items-center justify-between pb-4 border-b border-[rgba(248,250,252,0.14)]">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center">
-                  <Compass className="w-4 h-4 text-blue-400" />
+                <div className="w-8 h-8 rounded-full bg-[rgba(56,189,248,0.12)] border border-[rgba(248,250,252,0.16)] flex items-center justify-center">
+                  <Compass className="w-4 h-4 text-[#38BDF8]" />
                 </div>
-                <h3 className="font-semibold text-white tracking-tight">
+                <h3 className="font-['Chakra_Petch'] font-bold text-[#F8FAFC] tracking-tight">
                   Astrodynamics Engine
                 </h3>
               </div>
               <button
                 onClick={() => setShowCoordinateInfo(false)}
-                className="p-2 rounded-full hover:bg-white/10 text-zinc-400 hover:text-white transition-colors"
+                className="p-2 rounded-full hover:bg-[rgba(248,250,252,0.1)] text-[#94A3B8] hover:text-[#F8FAFC] transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -1565,19 +1566,19 @@ export const DeepSpaceExplorer: React.FC<DeepSpaceExplorerProps> = React.memo(({
                 { title: "Trajectory Physics", content: "Probes use hyperbolic escape vectors, halo orbits, or heliocentric drifts based on NASA mission data.", icon: <Radio className="w-3.5 h-3.5" /> },
                 { title: "Multi-Engine Pipeline", content: "Combines Cesium High-Res topography with Three.js multi-body propagation logic.", icon: <Layers className="w-3.5 h-3.5" /> }
               ].map((item, i) => (
-                <div key={i} className="bg-white/5 rounded-2xl p-4 border border-white/5">
+                <div key={i} className="bg-[rgba(15,23,42,0.65)] rounded-2xl p-4 border border-[rgba(248,250,252,0.14)]">
                   <div className="flex items-center gap-2 mb-1.5">
-                    <span className="text-blue-400">{item.icon}</span>
-                    <span className="text-xs font-semibold text-white uppercase tracking-wider">{item.title}</span>
+                    <span className="text-[#38BDF8]">{item.icon}</span>
+                    <span className="font-['Chakra_Petch'] text-xs font-bold text-[#F8FAFC] uppercase tracking-wider">{item.title}</span>
                   </div>
-                  <p className="text-xs text-zinc-400 leading-relaxed">{item.content}</p>
+                  <p className="font-['Space_Grotesk'] text-xs text-[#94A3B8] leading-relaxed">{item.content}</p>
                 </div>
               ))}
             </div>
 
             <button
               onClick={() => setShowCoordinateInfo(false)}
-              className="mt-6 w-full py-3 rounded-2xl bg-white text-zinc-950 font-semibold text-sm transition-transform active:scale-[0.98]"
+              className="font-['Chakra_Petch'] mt-6 w-full py-3 rounded-2xl bg-[#38BDF8] hover:bg-[#7DD3FC] text-[#0A0E17] font-bold text-sm transition-transform active:scale-[0.98]"
             >
               Done
             </button>
@@ -1597,7 +1598,7 @@ export const DeepSpaceExplorer: React.FC<DeepSpaceExplorerProps> = React.memo(({
             playTelemetryBeep(400);
             setIsTimelineCollapsed(!isTimelineCollapsed);
           }}
-          className="pointer-events-auto px-4 py-1.5 rounded-full bg-[#facc15] hover:bg-[#fde047] border-[3px] border-[#1e1b4b] shadow-[0_4px_0_#1e1b4b] text-xs font-black text-[#1e1b4b] flex items-center gap-2 transition-all active:translate-y-0.5 active:shadow-[0_2px_0_#1e1b4b]"
+          className="font-['Chakra_Petch'] pointer-events-auto px-4 py-1.5 rounded-full bg-[rgba(10,14,23,0.78)] hover:bg-[#38BDF8] border border-[rgba(248,250,252,0.16)] hover:border-[#38BDF8] shadow-lg text-xs font-bold text-[#F8FAFC] hover:text-[#0A0E17] flex items-center gap-2 transition-all active:translate-y-0.5 backdrop-blur-md"
         >
           {isTimelineCollapsed ? (
             <>
@@ -1613,7 +1614,7 @@ export const DeepSpaceExplorer: React.FC<DeepSpaceExplorerProps> = React.memo(({
         </button>
 
         {/* Carousel Strip */}
-        <div className="pointer-events-auto w-full max-w-3xl bg-[#fffdf7] border-[3px] border-[#1e1b4b] rounded-2xl p-1.5 shadow-[0_6px_0_#1e1b4b] flex items-center gap-2 overflow-x-auto scrollbar-none snap-x snap-mandatory">
+        <div className="pointer-events-auto w-full max-w-3xl bg-[rgba(10,14,23,0.78)] backdrop-blur-md border border-[rgba(248,250,252,0.16)] rounded-2xl p-1.5 shadow-lg flex items-center gap-2 overflow-x-auto scrollbar-none snap-x snap-mandatory">
           {filteredArtifacts.map((artifact) => {
             const isSelected = selectedArtifact?.id === artifact.id;
             return (
@@ -1624,25 +1625,25 @@ export const DeepSpaceExplorer: React.FC<DeepSpaceExplorerProps> = React.memo(({
                   onSelectArtifact(artifact);
                   setSelectedPlanet(null);
                 }}
-                className={`flex-shrink-0 snap-center min-w-[120px] sm:min-w-[160px] px-3 py-2 rounded-xl border-2 text-left transition-all ${
+                className={`flex-shrink-0 snap-center min-w-[120px] sm:min-w-[160px] px-3 py-2 rounded-xl border text-left transition-all ${
                   isSelected
-                    ? 'bg-[#fb923c] border-[#1e1b4b] text-[#1e1b4b] shadow-[0_3px_0_#1e1b4b] scale-[1.03]'
-                    : 'bg-[#fffbeb] border-[#1e1b4b]/20 text-[#1e1b4b] hover:bg-[#fef08a] hover:border-[#1e1b4b]'
+                    ? 'bg-[#38BDF8] border-[#38BDF8] text-[#0A0E17]'
+                    : 'bg-[rgba(15,23,42,0.65)] border-[rgba(248,250,252,0.14)] text-[#F8FAFC] hover:bg-[rgba(248,250,252,0.1)] hover:border-[rgba(248,250,252,0.3)]'
                 }`}
               >
-                <div className="text-[10px] font-black uppercase tracking-wider mb-0.5 flex items-center gap-1.5">
+                <div className="text-[10px] font-bold uppercase tracking-wider mb-0.5 flex items-center gap-1.5">
                   <span
                     className={`font-mono tabular-nums ${
-                      isSelected ? 'text-[#1e1b4b]' : 'text-[#b45309]'
+                      isSelected ? 'text-[#0A0E17]' : 'text-[#38BDF8]'
                     }`}
                   >
                     {artifact.year}
                   </span>
                   {isSelected && (
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#1e1b4b]" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#0A0E17]" />
                   )}
                 </div>
-                <h4 className="text-xs font-extrabold truncate text-[#1e1b4b]">
+                <h4 className={`font-['Chakra_Petch'] text-xs font-bold truncate ${isSelected ? 'text-[#0A0E17]' : 'text-[#F8FAFC]'}`}>
                   {artifact.moniker}
                 </h4>
               </button>
@@ -1650,6 +1651,7 @@ export const DeepSpaceExplorer: React.FC<DeepSpaceExplorerProps> = React.memo(({
           })}
         </div>
       </div>
+
       {/* 8. Restore Dock Button */}
       {!isDockVisible && (
         <button
@@ -1657,7 +1659,7 @@ export const DeepSpaceExplorer: React.FC<DeepSpaceExplorerProps> = React.memo(({
             playTelemetryBeep(400);
             setIsDockVisible(true);
           }}
-          className="absolute top-16 left-4 z-30 p-3 rounded-2xl bg-[#1e1f20]/90 border border-white/10 text-zinc-400 hover:text-white backdrop-blur-xl shadow-2xl transition-all hover:scale-110 active:scale-95"
+          className="absolute top-16 left-4 z-30 p-3 rounded-2xl bg-[rgba(10,14,23,0.78)] border border-[rgba(248,250,252,0.16)] text-[#38BDF8] hover:text-[#F8FAFC] backdrop-blur-md shadow-lg transition-all hover:scale-105 active:scale-95"
           title="Show Mission Control"
         >
           <Menu className="w-5 h-5" />

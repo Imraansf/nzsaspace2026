@@ -33,7 +33,7 @@ export const LandingIntro: React.FC<LandingIntroProps> = ({ onSelectZone }) => {
     let width = (canvas.width = window.innerWidth);
     let height = (canvas.height = window.innerHeight);
 
-    const starPalette = ['#ffffff', '#fef08a', '#fed7aa', '#fde68a'];
+    const starPalette = ['#F8FAFC', '#E0F2FE', '#38BDF8', '#A78BFA'];
 
     const createStars = (): TwinkleStar[] => {
       const count = Math.min(75, Math.floor((width * height) / 18000));
@@ -118,14 +118,18 @@ export const LandingIntro: React.FC<LandingIntroProps> = ({ onSelectZone }) => {
       }`}
       style={{
         background:
-          'linear-gradient(155deg, #c2410c 0%, #ea580c 28%, #f59e0b 58%, #fbbf24 82%, #fef08a 100%)',
+          'linear-gradient(180deg, #06090F 0%, #0D131F 52%, #06090F 100%)',
       }}
     >
-      {/* Scoped Playful Lobby Keyframes */}
+      {/* Scoped Aurora Lobby Keyframes */}
       <style>{`
-        @keyframes rays-spin {
-          from { transform: translate(-50%, -50%) rotate(0deg); }
-          to { transform: translate(-50%, -50%) rotate(360deg); }
+        @keyframes aurora-ribbon-1 {
+          0%, 100% { transform: translateX(-4%) translateY(0px) skewX(-6deg) scaleY(1); opacity: 0.58; }
+          50% { transform: translateX(4%) translateY(-16px) skewX(4deg) scaleY(1.08); opacity: 0.82; }
+        }
+        @keyframes aurora-ribbon-2 {
+          0%, 100% { transform: translateX(4%) translateY(0px) skewX(5deg) scaleY(1.04); opacity: 0.48; }
+          50% { transform: translateX(-5%) translateY(14px) skewX(-5deg) scaleY(0.95); opacity: 0.75; }
         }
         @keyframes cloud-drift-slow {
           0%, 100% { transform: translateX(-12px); }
@@ -161,8 +165,11 @@ export const LandingIntro: React.FC<LandingIntroProps> = ({ onSelectZone }) => {
           75% { opacity: 0.85; }
           100% { transform: translateX(-160px); opacity: 0; }
         }
-        .lobby-light-rays {
-          animation: rays-spin 65s linear infinite;
+        .aurora-wave-primary {
+          animation: aurora-ribbon-1 14s ease-in-out infinite;
+        }
+        .aurora-wave-secondary {
+          animation: aurora-ribbon-2 18s ease-in-out infinite;
         }
         .cloud-slow {
           animation: cloud-drift-slow 14s ease-in-out infinite;
@@ -191,7 +198,8 @@ export const LandingIntro: React.FC<LandingIntroProps> = ({ onSelectZone }) => {
         .speed-line-2 { animation: speed-streak 1.7s linear 0.7s infinite; }
         .speed-line-3 { animation: speed-streak 2.4s linear 1.2s infinite; }
         @media (prefers-reduced-motion: reduce) {
-          .lobby-light-rays,
+          .aurora-wave-primary,
+          .aurora-wave-secondary,
           .cloud-slow,
           .cloud-alt,
           .lobby-rocket-track,
@@ -209,44 +217,85 @@ export const LandingIntro: React.FC<LandingIntroProps> = ({ onSelectZone }) => {
         }
       `}</style>
 
-      {/* Subtle Geometric Sun/Lobby Light Rays */}
-      <div
-        className="lobby-light-rays fixed top-[42%] left-1/2 w-[150vmax] h-[150vmax] pointer-events-none opacity-25"
-        style={{
-          background:
-            'repeating-conic-gradient(from 0deg, rgba(255,255,255,0.45) 0deg 10deg, transparent 10deg 25deg)',
-        }}
-        aria-hidden="true"
-      />
+      {/* Flowing Aurora Borealis Light Ribbons */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+        <div
+          className="aurora-wave-primary absolute -top-24 -left-1/4 w-[150%] h-[62%]"
+          style={{
+            background:
+              'radial-gradient(ellipse 65% 42% at 35% 40%, rgba(56, 189, 248, 0.30) 0%, rgba(16, 185, 129, 0.14) 45%, transparent 75%), radial-gradient(ellipse 55% 38% at 72% 35%, rgba(124, 58, 237, 0.28) 0%, rgba(147, 51, 234, 0.12) 48%, transparent 76%)',
+            filter: 'blur(38px)',
+          }}
+        />
+        <div
+          className="aurora-wave-secondary absolute top-[12%] -right-1/4 w-[150%] h-[58%]"
+          style={{
+            background:
+              'linear-gradient(115deg, transparent 15%, rgba(124, 58, 237, 0.22) 36%, rgba(56, 189, 248, 0.26) 56%, rgba(147, 51, 234, 0.16) 72%, transparent 88%)',
+            filter: 'blur(46px)',
+          }}
+        />
+        <svg
+          viewBox="0 0 1440 420"
+          preserveAspectRatio="none"
+          className="aurora-wave-primary absolute top-0 left-0 w-full h-[55%] opacity-55"
+        >
+          <defs>
+            <linearGradient id="auroraRibbonGradA" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#38BDF8" stopOpacity="0" />
+              <stop offset="28%" stopColor="#38BDF8" stopOpacity="0.45" />
+              <stop offset="62%" stopColor="#7C3AED" stopOpacity="0.42" />
+              <stop offset="85%" stopColor="#38BDF8" stopOpacity="0.28" />
+              <stop offset="100%" stopColor="#7C3AED" stopOpacity="0" />
+            </linearGradient>
+            <linearGradient id="auroraRibbonGradB" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#7C3AED" stopOpacity="0" />
+              <stop offset="35%" stopColor="#9333EA" stopOpacity="0.38" />
+              <stop offset="70%" stopColor="#38BDF8" stopOpacity="0.40" />
+              <stop offset="100%" stopColor="#38BDF8" stopOpacity="0" />
+            </linearGradient>
+          </defs>
+          <path
+            d="M-60 220 C220 90, 480 280, 760 150 C1020 35, 1260 210, 1500 110 L1500 20 L-60 20 Z"
+            fill="url(#auroraRibbonGradA)"
+          />
+          <path
+            d="M-60 280 C260 160, 560 320, 880 190 C1120 95, 1310 245, 1500 175 L1500 60 L-60 60 Z"
+            fill="url(#auroraRibbonGradB)"
+          />
+        </svg>
+      </div>
 
-      {/* Twinkling Cartoon Stars Canvas */}
+      {/* Twinkling Ice White & Aurora Stars Canvas */}
       <canvas ref={canvasRef} className="fixed inset-0 w-full h-full pointer-events-none" />
 
-      {/* Stylized Floating Cartoon Clouds */}
+      {/* Dark-Tinted Horizon Clouds */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
         {/* Top-Left Cloud */}
         <svg
           viewBox="0 0 220 90"
-          className="cloud-slow absolute top-6 -left-8 sm:left-8 w-44 sm:w-60 opacity-85 drop-shadow-[0_8px_0_rgba(30,27,75,0.12)]"
+          className="cloud-slow absolute top-6 -left-8 sm:left-8 w-44 sm:w-60 opacity-85 drop-shadow-[0_8px_16px_rgba(56,189,248,0.12)]"
         >
           <path
             d="M36 74 H182 C198 74 208 62 208 49 C208 37 198 26 184 26 C181 11 167 4 152 6 C141 -1 122 2 114 14 C101 8 83 13 77 27 C62 24 47 32 43 45 C30 46 22 56 24 65 C25 71 30 74 36 74 Z"
-            fill="#fffdf7"
-            stroke="#1e1b4b"
-            strokeWidth="3"
+            fill="#0D131F"
+            stroke="#38BDF8"
+            strokeOpacity="0.45"
+            strokeWidth="2.5"
           />
         </svg>
 
         {/* Top-Right Cloud */}
         <svg
           viewBox="0 0 220 90"
-          className="cloud-alt absolute top-10 -right-10 sm:right-10 w-40 sm:w-56 opacity-80 drop-shadow-[0_8px_0_rgba(30,27,75,0.12)]"
+          className="cloud-alt absolute top-10 -right-10 sm:right-10 w-40 sm:w-56 opacity-80 drop-shadow-[0_8px_16px_rgba(124,58,237,0.14)]"
         >
           <path
             d="M36 74 H182 C198 74 208 62 208 49 C208 37 198 26 184 26 C181 11 167 4 152 6 C141 -1 122 2 114 14 C101 8 83 13 77 27 C62 24 47 32 43 45 C30 46 22 56 24 65 C25 71 30 74 36 74 Z"
-            fill="#fff7ed"
-            stroke="#1e1b4b"
-            strokeWidth="3"
+            fill="#0D131F"
+            stroke="#7C3AED"
+            strokeOpacity="0.5"
+            strokeWidth="2.5"
           />
         </svg>
 
@@ -257,9 +306,10 @@ export const LandingIntro: React.FC<LandingIntroProps> = ({ onSelectZone }) => {
         >
           <path
             d="M18 92 H262 C272 92 276 80 270 70 C264 56 246 48 230 52 C222 28 194 18 170 28 C154 8 118 8 102 32 C80 26 56 38 50 56 C32 54 16 66 14 80 C13 87 15 92 18 92 Z"
-            fill="#fffbeb"
-            stroke="#1e1b4b"
-            strokeWidth="3"
+            fill="#0D131F"
+            stroke="#38BDF8"
+            strokeOpacity="0.4"
+            strokeWidth="2.5"
           />
         </svg>
 
@@ -269,9 +319,10 @@ export const LandingIntro: React.FC<LandingIntroProps> = ({ onSelectZone }) => {
         >
           <path
             d="M18 92 H262 C272 92 276 80 270 70 C264 56 246 48 230 52 C222 28 194 18 170 28 C154 8 118 8 102 32 C80 26 56 38 50 56 C32 54 16 66 14 80 C13 87 15 92 18 92 Z"
-            fill="#fffbeb"
-            stroke="#1e1b4b"
-            strokeWidth="3"
+            fill="#0D131F"
+            stroke="#7C3AED"
+            strokeOpacity="0.45"
+            strokeWidth="2.5"
           />
         </svg>
       </div>
@@ -279,61 +330,67 @@ export const LandingIntro: React.FC<LandingIntroProps> = ({ onSelectZone }) => {
       {/* Main Lobby Content Container */}
       <div className="relative z-10 w-full max-w-4xl px-4 sm:px-6 py-6 sm:py-8 flex flex-col items-center text-center my-auto">
         {/* Top Lobby Title Banner */}
-        <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-xl bg-[#fffdf7] border-[3px] border-[#1e1b4b] shadow-[0_4px_0_#1e1b4b] -rotate-1 mb-3">
-          <span className="bg-[#f97316] text-white text-xs font-black font-mono px-2 py-0.5 rounded-md border-2 border-[#1e1b4b] tracking-wider uppercase">
+        <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-xl bg-[#0D131F] border-[3px] border-[#38BDF8] shadow-[0_4px_0_#38BDF8,0_0_24px_rgba(56,189,248,0.22)] -rotate-1 mb-3">
+          <span className="bg-[#38BDF8] text-[#06090F] text-xs font-black font-mono px-2 py-0.5 rounded-md border-2 border-[#06090F] tracking-wider uppercase">
             SPACE RELICS
           </span>
-          <span className="text-xs sm:text-sm font-extrabold tracking-wide uppercase text-[#1e1b4b]">
+          <span className="text-xs sm:text-sm font-extrabold tracking-wide uppercase text-[#F8FAFC]">
             NASA Explorer Lobby
           </span>
         </div>
 
         <h1
-          className="text-3xl sm:text-5xl font-black tracking-tight text-[#fffdf7] max-w-2xl leading-[1.08] uppercase"
+          className="text-3xl sm:text-5xl font-black tracking-tight text-[#F8FAFC] max-w-2xl leading-[1.08] uppercase"
           style={{
-            textShadow: '0 4px 0 #1e1b4b, 0 8px 20px rgba(30, 27, 75, 0.35)',
-            WebkitTextStroke: '1.5px #1e1b4b',
+            textShadow: '0 4px 0 #06090F, 0 0 28px rgba(56, 189, 248, 0.35)',
+            WebkitTextStroke: '1px #06090F',
           }}
         >
           Abandoned in Space, Not Forgotten!
         </h1>
 
-        {/* Mission Briefing Cards (Chunky Tilted Lobby Cards) */}
+        {/* Mission Briefing Cards (Ice White Cards with Aurora Green Headers/Borders & Deep Space Black Text) */}
         <div className="mt-4 sm:mt-5 w-full max-w-3xl grid grid-cols-1 sm:grid-cols-3 gap-3">
-          <div className="bg-[#fffdf7] text-[#1e1b4b] rounded-2xl p-3.5 border-[3px] border-[#facc15] outline outline-2 outline-[#1e1b4b] shadow-[0_6px_0_#1e1b4b] -rotate-1 text-left">
-            <div className="text-[11px] font-black uppercase tracking-wider text-[#b45309] font-mono mb-1">
-              01 · Pick a Zone
+          <div className="bg-[#F8FAFC] text-[#06090F] rounded-2xl overflow-hidden border-[3px] border-[#38BDF8] outline outline-2 outline-[#06090F] shadow-[0_6px_0_#38BDF8,0_12px_24px_rgba(56,189,248,0.18)] -rotate-1 text-left">
+            <div className="bg-[#38BDF8] px-3.5 py-1.5 border-b-2 border-[#06090F]">
+              <div className="text-[11px] font-black uppercase tracking-wider text-[#06090F] font-mono">
+                01 · Pick a Zone
+              </div>
             </div>
-            <p className="text-xs sm:text-[13px] font-bold leading-snug text-[#1e1b4b]">
+            <p className="p-3.5 text-xs sm:text-[13px] font-bold leading-snug text-[#06090F]">
               Launch to the Moon, Mars, or Deepspace using the mission buttons below!
             </p>
           </div>
 
-          <div className="bg-[#fffdf7] text-[#1e1b4b] rounded-2xl p-3.5 border-[3px] border-[#fb7185] outline outline-2 outline-[#1e1b4b] shadow-[0_6px_0_#1e1b4b] rotate-1 text-left">
-            <div className="text-[11px] font-black uppercase tracking-wider text-[#be123c] font-mono mb-1">
-              02 · Spot the Relics
+          <div className="bg-[#F8FAFC] text-[#06090F] rounded-2xl overflow-hidden border-[3px] border-[#38BDF8] outline outline-2 outline-[#06090F] shadow-[0_6px_0_#38BDF8,0_12px_24px_rgba(56,189,248,0.18)] rotate-1 text-left">
+            <div className="bg-[#38BDF8] px-3.5 py-1.5 border-b-2 border-[#06090F]">
+              <div className="text-[11px] font-black uppercase tracking-wider text-[#06090F] font-mono">
+                02 · Spot the Relics
+              </div>
             </div>
-            <p className="text-xs sm:text-[13px] font-bold leading-snug text-[#1e1b4b]">
+            <p className="p-3.5 text-xs sm:text-[13px] font-bold leading-snug text-[#06090F]">
               Spin the 3D worlds and tap glowing markers or the timeline bar to zoom in!
             </p>
           </div>
 
-          <div className="bg-[#fffdf7] text-[#1e1b4b] rounded-2xl p-3.5 border-[3px] border-[#06b6d4] outline outline-2 outline-[#1e1b4b] shadow-[0_6px_0_#1e1b4b] -rotate-1 text-left">
-            <div className="text-[11px] font-black uppercase tracking-wider text-[#0e7490] font-mono mb-1">
-              03 · Hear Their Story
+          <div className="bg-[#F8FAFC] text-[#06090F] rounded-2xl overflow-hidden border-[3px] border-[#38BDF8] outline outline-2 outline-[#06090F] shadow-[0_6px_0_#38BDF8,0_12px_24px_rgba(56,189,248,0.18)] -rotate-1 text-left">
+            <div className="bg-[#38BDF8] px-3.5 py-1.5 border-b-2 border-[#06090F]">
+              <div className="text-[11px] font-black uppercase tracking-wider text-[#06090F] font-mono">
+                03 · Hear Their Story
+              </div>
             </div>
-            <p className="text-xs sm:text-[13px] font-bold leading-snug text-[#1e1b4b]">
+            <p className="p-3.5 text-xs sm:text-[13px] font-bold leading-snug text-[#06090F]">
               Open any relic dossier for 3D models, NASA videos, and first-person tales!
             </p>
           </div>
         </div>
 
-        {/* Centerpiece: Playful 2D Horizontal Rocket With Smooth Thruster Animation */}
+        {/* Centerpiece: 2D Horizontal Spaceship With Continuous Smooth Motion & Aurora Plasma Thrusters */}
         <div
           className="relative w-full max-w-xl h-36 sm:h-44 my-4 sm:my-6 flex items-center justify-center"
           aria-hidden="true"
         >
-          {/* Stylized Cartoon Speed Lines & Stars */}
+          {/* Passing Speed-Line Stars */}
           <svg
             viewBox="0 0 520 150"
             className="absolute inset-0 w-full h-full pointer-events-none"
@@ -344,7 +401,7 @@ export const LandingIntro: React.FC<LandingIntroProps> = ({ onSelectZone }) => {
               y1="30"
               x2="495"
               y2="30"
-              stroke="#ffffff"
+              stroke="#F8FAFC"
               strokeWidth="3.5"
               strokeLinecap="round"
               className="speed-line-1"
@@ -354,7 +411,7 @@ export const LandingIntro: React.FC<LandingIntroProps> = ({ onSelectZone }) => {
               y1="118"
               x2="470"
               y2="118"
-              stroke="#fef08a"
+              stroke="#38BDF8"
               strokeWidth="3.5"
               strokeLinecap="round"
               className="speed-line-2"
@@ -364,7 +421,7 @@ export const LandingIntro: React.FC<LandingIntroProps> = ({ onSelectZone }) => {
               y1="74"
               x2="505"
               y2="74"
-              stroke="#bae6fd"
+              stroke="#7C3AED"
               strokeWidth="3"
               strokeLinecap="round"
               className="speed-line-3"
@@ -375,34 +432,34 @@ export const LandingIntro: React.FC<LandingIntroProps> = ({ onSelectZone }) => {
             <div className="lobby-rocket-bob">
               <svg
                 viewBox="0 0 380 128"
-                className="w-72 sm:w-[400px] h-auto drop-shadow-[0_10px_0_rgba(30,27,75,0.22)]"
+                className="w-72 sm:w-[400px] h-auto drop-shadow-[0_10px_20px_rgba(56,189,248,0.28)]"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <defs>
                   <linearGradient id="lobbyOuterFlame" x1="100%" y1="50%" x2="0%" y2="50%">
-                    <stop offset="0%" stopColor="#fb923c" />
-                    <stop offset="55%" stopColor="#f97316" />
-                    <stop offset="100%" stopColor="#f43f5e" stopOpacity="0" />
+                    <stop offset="0%" stopColor="#38BDF8" />
+                    <stop offset="55%" stopColor="#7C3AED" />
+                    <stop offset="100%" stopColor="#9333EA" stopOpacity="0" />
                   </linearGradient>
                   <linearGradient id="lobbyInnerFlame" x1="100%" y1="50%" x2="0%" y2="50%">
-                    <stop offset="0%" stopColor="#ffffff" />
-                    <stop offset="45%" stopColor="#fef08a" />
-                    <stop offset="100%" stopColor="#facc15" stopOpacity="0" />
+                    <stop offset="0%" stopColor="#F8FAFC" />
+                    <stop offset="45%" stopColor="#E0F2FE" />
+                    <stop offset="100%" stopColor="#38BDF8" stopOpacity="0" />
                   </linearGradient>
                   <linearGradient id="lobbyHull" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stopColor="#ffffff" />
-                    <stop offset="65%" stopColor="#fef3c7" />
-                    <stop offset="100%" stopColor="#fde68a" />
+                    <stop offset="0%" stopColor="#F8FAFC" />
+                    <stop offset="72%" stopColor="#E0F2FE" />
+                    <stop offset="100%" stopColor="#CBD5E1" />
                   </linearGradient>
                 </defs>
 
-                {/* Smooth Floating Exhaust Puffs */}
-                <circle cx="102" cy="64" r="7" fill="#fffbeb" className="exhaust-puff-1" />
-                <circle cx="96" cy="57" r="5.5" fill="#fef08a" className="exhaust-puff-2" />
-                <circle cx="98" cy="71" r="6" fill="#fed7aa" className="exhaust-puff-3" />
+                {/* Smooth Floating Aurora Plasma Exhaust Puffs */}
+                <circle cx="102" cy="64" r="7" fill="#F8FAFC" className="exhaust-puff-1" />
+                <circle cx="96" cy="57" r="5.5" fill="#38BDF8" className="exhaust-puff-2" />
+                <circle cx="98" cy="71" r="6" fill="#7C3AED" className="exhaust-puff-3" />
 
-                {/* Smooth Animated Thruster Flame */}
+                {/* Smooth Animated Aurora Plasma Thruster Flame */}
                 <g className="smooth-flame-outer">
                   <path
                     d="M128 48 C92 43, 40 54, 18 64 C40 74, 92 85, 128 80 Z"
@@ -419,54 +476,60 @@ export const LandingIntro: React.FC<LandingIntroProps> = ({ onSelectZone }) => {
                 {/* Rear Thruster Bell */}
                 <path
                   d="M124 48 L142 52 L142 76 L124 80 Z"
-                  fill="#475569"
-                  stroke="#1e1b4b"
+                  fill="#0D131F"
+                  stroke="#06090F"
                   strokeWidth="3.5"
                   strokeLinejoin="round"
                 />
 
-                {/* Playful Coral-Red Top & Bottom Tail Fins */}
+                {/* Aurora Green & Cosmic Purple Top & Bottom Tail Fins */}
                 <path
                   d="M150 43 L128 16 L168 25 L182 43 Z"
-                  fill="#fb7185"
-                  stroke="#1e1b4b"
+                  fill="#38BDF8"
+                  stroke="#06090F"
                   strokeWidth="3.5"
                   strokeLinejoin="round"
                 />
                 <path
                   d="M150 85 L128 112 L168 103 L182 85 Z"
-                  fill="#fb7185"
-                  stroke="#1e1b4b"
+                  fill="#38BDF8"
+                  stroke="#06090F"
                   strokeWidth="3.5"
                   strokeLinejoin="round"
                 />
 
-                {/* Main Chunky Rocket Body */}
+                {/* Main Chunky Rocket Body (Ice White Hull) */}
                 <path
                   d="M142 42 L262 42 C288 42, 314 50, 338 64 C314 78, 288 86, 262 86 L142 86 Z"
                   fill="url(#lobbyHull)"
-                  stroke="#1e1b4b"
+                  stroke="#06090F"
                   strokeWidth="3.5"
                   strokeLinejoin="round"
                 />
 
-                {/* Bright Coral-Orange Nose Cone */}
+                {/* Deep Space Black Dorsal Panel Accent */}
+                <path
+                  d="M168 76 L262 76 C272 76, 280 74, 286 73 L286 84 C278 85, 270 86, 262 86 L168 86 Z"
+                  fill="#0D131F"
+                />
+
+                {/* Aurora Green Nose Cone */}
                 <path
                   d="M286 44.5 C304 49, 322 55.5, 338 64 C322 72.5, 304 79, 286 83.5 Z"
-                  fill="#f97316"
-                  stroke="#1e1b4b"
+                  fill="#38BDF8"
+                  stroke="#06090F"
                   strokeWidth="3.5"
                   strokeLinejoin="round"
                 />
 
-                {/* Golden Collar & Racing Stripe */}
+                {/* Deep Space Black Collar & Cosmic Purple Racing Stripe */}
                 <rect
                   x="144"
                   y="44"
                   width="12"
                   height="40"
-                  fill="#facc15"
-                  stroke="#1e1b4b"
+                  fill="#0D131F"
+                  stroke="#06090F"
                   strokeWidth="2.5"
                 />
                 <rect
@@ -475,39 +538,39 @@ export const LandingIntro: React.FC<LandingIntroProps> = ({ onSelectZone }) => {
                   width="110"
                   height="10"
                   rx="4"
-                  fill="#38bdf8"
-                  stroke="#1e1b4b"
+                  fill="#7C3AED"
+                  stroke="#06090F"
                   strokeWidth="2.5"
                 />
 
-                {/* Glossy Top Highlight */}
+                {/* Glossy Ice White Top Highlight */}
                 <path
                   d="M168 49 H266"
-                  stroke="#ffffff"
+                  stroke="#F8FAFC"
                   strokeWidth="3.5"
                   strokeLinecap="round"
-                  opacity="0.9"
+                  opacity="0.95"
                 />
 
-                {/* Big Cartoon Bubble Viewport */}
-                <circle cx="248" cy="64" r="14" fill="#facc15" stroke="#1e1b4b" strokeWidth="3.5" />
-                <circle cx="248" cy="64" r="9.5" fill="#38bdf8" stroke="#1e1b4b" strokeWidth="2.5" />
+                {/* Cockpit Viewport (Aurora Green Rim + Cosmic Purple Glass) */}
+                <circle cx="248" cy="64" r="14" fill="#38BDF8" stroke="#06090F" strokeWidth="3.5" />
+                <circle cx="248" cy="64" r="9.5" fill="#7C3AED" stroke="#06090F" strokeWidth="2.5" />
                 <path
                   d="M243 59 A6.5 6.5 0 0 1 253 59"
-                  stroke="#ffffff"
+                  stroke="#F8FAFC"
                   strokeWidth="2.5"
                   strokeLinecap="round"
                 />
 
-                {/* Side Stabilizer Wing */}
+                {/* Side Stabilizer Wing (Deep Space Black Panel) */}
                 <rect
                   x="170"
                   y="60"
                   width="46"
                   height="8"
                   rx="4"
-                  fill="#fb7185"
-                  stroke="#1e1b4b"
+                  fill="#0D131F"
+                  stroke="#06090F"
                   strokeWidth="2.5"
                 />
               </svg>
@@ -515,7 +578,7 @@ export const LandingIntro: React.FC<LandingIntroProps> = ({ onSelectZone }) => {
           </div>
         </div>
 
-        {/* Fortnite-Style Skewed Tactile 3-Button Destination Menu */}
+        {/* Skewed Tactile 3-Button Destination Menu (Deep Space Black & Ice White with Thick Aurora Green Borders) */}
         <div
           className="w-full max-w-xl grid grid-cols-1 sm:grid-cols-3 gap-3.5 sm:gap-4 px-2"
           role="navigation"
@@ -523,21 +586,21 @@ export const LandingIntro: React.FC<LandingIntroProps> = ({ onSelectZone }) => {
         >
           <button
             onClick={() => handleChooseZone('moon')}
-            className="group min-h-[54px] px-6 py-3 rounded-xl -skew-x-6 bg-[#fffbeb] hover:bg-[#ffffff] text-[#1e1b4b] font-black text-base tracking-wide uppercase border-[3px] border-[#1e1b4b] ring-2 ring-white/90 shadow-[0_6px_0_#1e1b4b] hover:scale-105 hover:-translate-y-1 active:translate-y-1 active:shadow-[0_2px_0_#1e1b4b] transition-all duration-150 focus-visible:outline-4 focus-visible:outline-white"
+            className="group min-h-[54px] px-6 py-3 rounded-xl -skew-x-6 bg-[#06090F] hover:bg-[#38BDF8] text-[#F8FAFC] hover:text-[#06090F] font-black text-base tracking-wide uppercase border-[3px] border-[#38BDF8] ring-2 ring-[#F8FAFC]/80 shadow-[0_6px_0_#38BDF8,0_0_20px_rgba(56,189,248,0.2)] hover:shadow-[0_6px_0_#F8FAFC,0_0_28px_rgba(56,189,248,0.65)] hover:scale-105 hover:-translate-y-1 active:translate-y-1 active:shadow-[0_2px_0_#38BDF8] transition-all duration-150 focus-visible:outline-4 focus-visible:outline-[#38BDF8]"
           >
             <span className="block skew-x-6">Moon</span>
           </button>
 
           <button
             onClick={() => handleChooseZone('mars')}
-            className="group min-h-[54px] px-6 py-3 rounded-xl -skew-x-6 bg-[#fb923c] hover:bg-[#fdba74] text-[#1e1b4b] font-black text-base tracking-wide uppercase border-[3px] border-[#1e1b4b] ring-2 ring-white/90 shadow-[0_6px_0_#1e1b4b] hover:scale-105 hover:-translate-y-1 active:translate-y-1 active:shadow-[0_2px_0_#1e1b4b] transition-all duration-150 focus-visible:outline-4 focus-visible:outline-white"
+            className="group min-h-[54px] px-6 py-3 rounded-xl -skew-x-6 bg-[#F8FAFC] hover:bg-[#38BDF8] text-[#06090F] font-black text-base tracking-wide uppercase border-[3px] border-[#38BDF8] ring-2 ring-[#06090F] shadow-[0_6px_0_#38BDF8,0_0_20px_rgba(56,189,248,0.25)] hover:shadow-[0_6px_0_#F8FAFC,0_0_28px_rgba(56,189,248,0.65)] hover:scale-105 hover:-translate-y-1 active:translate-y-1 active:shadow-[0_2px_0_#38BDF8] transition-all duration-150 focus-visible:outline-4 focus-visible:outline-[#38BDF8]"
           >
             <span className="block skew-x-6">Mars</span>
           </button>
 
           <button
             onClick={() => handleChooseZone('deep_space')}
-            className="group min-h-[54px] px-6 py-3 rounded-xl -skew-x-6 bg-[#facc15] hover:bg-[#fde047] text-[#1e1b4b] font-black text-base tracking-wide uppercase border-[3px] border-[#1e1b4b] ring-2 ring-white/90 shadow-[0_6px_0_#1e1b4b] hover:scale-105 hover:-translate-y-1 active:translate-y-1 active:shadow-[0_2px_0_#1e1b4b] transition-all duration-150 focus-visible:outline-4 focus-visible:outline-white"
+            className="group min-h-[54px] px-6 py-3 rounded-xl -skew-x-6 bg-[#06090F] hover:bg-[#38BDF8] text-[#F8FAFC] hover:text-[#06090F] font-black text-base tracking-wide uppercase border-[3px] border-[#38BDF8] ring-2 ring-[#F8FAFC]/80 shadow-[0_6px_0_#38BDF8,0_0_20px_rgba(56,189,248,0.2)] hover:shadow-[0_6px_0_#F8FAFC,0_0_28px_rgba(56,189,248,0.65)] hover:scale-105 hover:-translate-y-1 active:translate-y-1 active:shadow-[0_2px_0_#38BDF8] transition-all duration-150 focus-visible:outline-4 focus-visible:outline-[#38BDF8]"
           >
             <span className="block skew-x-6">Deepspace</span>
           </button>

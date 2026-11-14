@@ -4,24 +4,28 @@ import { Artifact, PlanetaryLandmark, CelestialBody } from '../types/space';
  * Source of truth for artifact category colors
  */
 export const getArtifactColor = (artifact: Artifact, isSelected?: boolean): string => {
-  if (isSelected) return '#ffffff';
+  if (artifact.body === 'mars') {
+    if (isSelected) return '#F5E6D3';
+    return artifact.category === 'rover' ? '#C87D32' : '#D97706';
+  }
+  if (isSelected) return '#F8FAFC';
   switch (artifact.category) {
     case 'interstellar_probe':
-      return '#a855f7'; // Purple Interstellar
+      return '#9333EA'; // Cosmic Purple Interstellar
     case 'space_telescope':
-      return '#eab308'; // Gold Telescopes
+      return '#38BDF8'; // Ice Blue Telescopes
     case 'planetary_orbiter':
-      return '#f97316'; // Orange Orbiters
+      return '#7C3AED'; // Cosmic Violet Orbiters
     case 'asteroid_impactor':
-      return '#38bdf8'; // Cyan Asteroids
+      return '#E0F2FE'; // Ice White Asteroids
     case 'apollo_crewed':
-      return '#3b82f6'; // Blue Apollo
+      return '#38BDF8'; // Ice Blue Apollo
     case 'uncrewed_lander':
-      return '#10b981'; // Green Landers
+      return '#0EA5E9'; // Ice Blue Landers
     case 'rover':
-      return '#ef4444'; // Red Rovers
+      return '#38BDF8'; // Ice Blue Rovers
     default:
-      return '#64748b'; // Gray/Zinc for others
+      return '#E0F2FE'; // Ice White for others
   }
 };
 

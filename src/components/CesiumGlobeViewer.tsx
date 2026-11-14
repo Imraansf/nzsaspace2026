@@ -83,6 +83,150 @@ export function getRelicGltfUrl(relic: Relic): string {
   return 'https://raw.githubusercontent.com/nasa/NASA-3D-Resources/main/3D%20Models/Apollo_11_Lunar_Module/Apollo_11_LM.glb';
 }
 
+const beaconIconCache = new Map<string, string>();
+
+function getRadarTargetIcon(isSelected: boolean, body: 'MOON' | 'MARS'): string {
+  const key = `radar-${body}-${isSelected ? 'selected' : 'default'}`;
+  const cached = beaconIconCache.get(key);
+  if (cached) return cached;
+
+  const size = 72;
+  const center = size / 2;
+  const canvas = document.createElement('canvas');
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext('2d');
+  if (ctx) {
+    const isMars = body === 'MARS';
+    const accent = isMars ? '#D97706' : '#38BDF8';
+    const light = isMars ? '#F5E6D3' : '#F8FAFC';
+
+    if (isMars) {
+      // Glowing Dune Ochre & Warm Sand beacon on Mars
+      const grad = ctx.createRadialGradient(center, center, 4, center, center, center - 2);
+      grad.addColorStop(0, isSelected ? 'rgba(217, 119, 6, 0.75)' : 'rgba(217, 119, 6, 0.45)');
+      grad.addColorStop(0.55, isSelected ? 'rgba(200, 125, 50, 0.25)' : 'rgba(200, 125, 50, 0.12)');
+      grad.addColorStop(1, 'rgba(217, 119, 6, 0)');
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(center, center, center - 2, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // Outer radar target ring
+    ctx.strokeStyle = isSelected ? light : accent;
+    ctx.lineWidth = isSelected ? 3 : 2.2;
+    ctx.beginPath();
+    ctx.arc(center, center, isSelected ? 22 : 17, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Inner dashed radar ring
+    ctx.save();
+    ctx.setLineDash([5, 4]);
+    ctx.strokeStyle = accent;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(center, center, isSelected ? 14 : 11, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.restore();
+
+    // Crosshair ticks
+    const tickInner = isSelected ? 20 : 15;
+    const tickOuter = isSelected ? 29 : 23;
+    ctx.strokeStyle = accent;
+    ctx.lineWidth = 2.2;
+    ctx.beginPath();
+    ctx.moveTo(center, center - tickOuter);
+    ctx.lineTo(center, center - tickInner);
+    ctx.moveTo(center, center + tickInner);
+    ctx.lineTo(center, center + tickOuter);
+    ctx.moveTo(center - tickOuter, center);
+    ctx.lineTo(center - tickInner, center);
+    ctx.moveTo(center + tickInner, center);
+    ctx.lineTo(center + tickOuter, center);
+    ctx.stroke();
+
+    // Center target core
+    ctx.fillStyle = light;
+    ctx.strokeStyle = accent;
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.arc(center, center, isSelected ? 7.5 : 5.5, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+  }
+
+  const dataUrl = canvas.toDataURL('image/png');
+  beaconIconCache.set(key, dataUrl);
+  return dataUrl;
+}
+
+function getPillLabelIcon(labelText: string, isSelected: boolean, body: 'MOON' | 'MARS'): string {
+  const key = `pill-${body}-${isSelected ? '1' : '0'}-${labelText}`;
+  const cached = beaconIconCache.get(key);
+  if (cached) return cached;
+
+  const isMars = body === 'MARS';
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  const font = '700 22px "Chakra Petch", sans-serif';
+  let textWidth = 120;
+  if (ctx) {
+    ctx.font = font;
+    textWidth = Math.ceil(ctx.measureText(labelText).width);
+  }
+
+  const padX = 22;
+  const pillW = Math.max(80, textWidth + padX * 2);
+  const pillH = 40;
+  const margin = 8;
+
+  canvas.width = pillW + margin * 2;
+  canvas.height = pillH + margin * 2;
+
+  if (ctx) {
+    const x = margin;
+    const y = margin;
+    const r = pillH / 2;
+
+    ctx.save();
+    if (isMars) {
+      ctx.shadowColor = isSelected ? 'rgba(217, 119, 6, 0.55)' : 'rgba(28, 20, 15, 0.55)';
+      ctx.shadowBlur = isSelected ? 10 : 4;
+      ctx.fillStyle = 'rgba(28, 20, 15, 0.94)';
+    } else {
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.45)';
+      ctx.shadowBlur = 4;
+      ctx.fillStyle = 'rgba(10, 14, 23, 0.90)';
+    }
+    ctx.beginPath();
+    ctx.roundRect(x, y, pillW, pillH, r);
+    ctx.fill();
+    ctx.restore();
+
+    if (isMars) {
+      ctx.strokeStyle = isSelected ? '#F5E6D3' : '#D97706';
+      ctx.lineWidth = isSelected ? 3 : 2;
+    } else {
+      ctx.strokeStyle = isSelected ? '#38BDF8' : 'rgba(248, 250, 252, 0.24)';
+      ctx.lineWidth = isSelected ? 2 : 1.5;
+    }
+    ctx.beginPath();
+    ctx.roundRect(x, y, pillW, pillH, r);
+    ctx.stroke();
+
+    ctx.font = font;
+    ctx.fillStyle = isMars ? '#F5E6D3' : '#F8FAFC';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(labelText, canvas.width / 2, canvas.height / 2 + 1);
+  }
+
+  const dataUrl = canvas.toDataURL('image/png');
+  beaconIconCache.set(key, dataUrl);
+  return dataUrl;
+}
+
 export const CesiumGlobeViewer: React.FC<CesiumGlobeViewerProps> = React.memo(({
   relics = [],
   selectedBody,
@@ -385,42 +529,51 @@ export const CesiumGlobeViewer: React.FC<CesiumGlobeViewerProps> = React.memo(({
         planetaryEllipsoid
       );
 
-      // Lightweight 2D Pin Entity
+      const labelText = (relic.moniker || relic.name).toUpperCase();
+
+      // Zone-themed Radar Target Beacon
       const entity = viewer.entities.add({
         id: `relic-${relic.id}`,
         name: relic.name,
         isRelic: true,
         position: position,
-        // Glowing cyan circle (10px) with white border
-        point: {
-          pixelSize: isSelected ? 14 : 10,
-          color: isSelected
-            ? Cesium.Color.fromCssColorString('#E03A3E') // NASA Red for active selection
-            : Cesium.Color.fromCssColorString('#00E5FF'), // Glowing Cyan Pinpoint
-          outlineColor: Cesium.Color.WHITE,
-          outlineWidth: 2,
-          scaleByDistance: new Cesium.NearFarScalar(1.0e4, 1.2, 1.5e7, 0.5),
-          disableDepthTestDistance: Number.POSITIVE_INFINITY,
-        },
-        // Monospaced Uppercase Relic Label
-        label: {
-          text: (relic.moniker || relic.name).toUpperCase(),
-          font: 'bold 11px "Space Mono", "Chakra Petch", monospace',
-          style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-          fillColor: isSelected
-            ? Cesium.Color.fromCssColorString('#FEF08A')
-            : Cesium.Color.fromCssColorString('#E0F2FE'),
-          outlineColor: Cesium.Color.BLACK,
-          outlineWidth: 2.5,
-          verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-          pixelOffset: new Cesium.Cartesian2(0, -14),
-          distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 1.0e7),
+        billboard: {
+          image: getRadarTargetIcon(isSelected, normalizedBody),
+          scale: isSelected ? 0.65 : 0.54,
+          scaleByDistance: new Cesium.NearFarScalar(1.0e4, 1.15, 1.5e7, 0.55),
           disableDepthTestDistance: Number.POSITIVE_INFINITY,
         },
       });
 
       entity.relicData = relic;
       entitiesMapRef.current.set(relic.id, entity);
+
+      // Pill Label: Surveyor 3 slightly below its pin, Intrepid & ALSEP above its pin; all Mars labels above their pins
+      let yOffset = -18;
+      let vOrigin = Cesium.VerticalOrigin.BOTTOM;
+      if (relic.id === 'surveyor-3') {
+        yOffset = 22;
+        vOrigin = Cesium.VerticalOrigin.TOP;
+      } else if (relic.id === 'apollo-12-intrepid-alsep') {
+        yOffset = -28;
+        vOrigin = Cesium.VerticalOrigin.BOTTOM;
+      }
+
+      const pillEntity = viewer.entities.add({
+        id: `relic-${relic.id}-pill`,
+        name: `${relic.name} Label`,
+        isRelic: true,
+        position: position,
+        billboard: {
+          image: getPillLabelIcon(labelText, isSelected, normalizedBody),
+          scale: 0.48,
+          verticalOrigin: vOrigin,
+          pixelOffset: new Cesium.Cartesian2(0, yOffset),
+          distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 6.0e7),
+          disableDepthTestDistance: Number.POSITIVE_INFINITY,
+        },
+      });
+      pillEntity.relicData = relic;
 
       // Optional secondary site pin (e.g., Opportunity Rover at Meridiani Planum)
       if (
@@ -441,32 +594,30 @@ export const CesiumGlobeViewer: React.FC<CesiumGlobeViewerProps> = React.memo(({
           name: `${relic.name} (Opportunity)`,
           isRelic: true,
           position: secPosition,
-          point: {
-            pixelSize: isSelected ? 14 : 10,
-            color: isSelected
-              ? Cesium.Color.fromCssColorString('#E03A3E')
-              : Cesium.Color.fromCssColorString('#00E5FF'),
-            outlineColor: Cesium.Color.WHITE,
-            outlineWidth: 2,
-            scaleByDistance: new Cesium.NearFarScalar(1.0e4, 1.2, 1.5e7, 0.5),
-            disableDepthTestDistance: Number.POSITIVE_INFINITY,
-          },
-          label: {
-            text: 'OPPORTUNITY (MERIDIANI)',
-            font: 'bold 11px "Space Mono", "Chakra Petch", monospace',
-            style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-            fillColor: isSelected
-              ? Cesium.Color.fromCssColorString('#FEF08A')
-              : Cesium.Color.fromCssColorString('#E0F2FE'),
-            outlineColor: Cesium.Color.BLACK,
-            outlineWidth: 2.5,
-            verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-            pixelOffset: new Cesium.Cartesian2(0, -14),
-            distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 1.0e7),
+          billboard: {
+            image: getRadarTargetIcon(isSelected, normalizedBody),
+            scale: isSelected ? 0.65 : 0.54,
+            scaleByDistance: new Cesium.NearFarScalar(1.0e4, 1.15, 1.5e7, 0.55),
             disableDepthTestDistance: Number.POSITIVE_INFINITY,
           },
         });
         secEntity.relicData = relic;
+
+        const secPillEntity = viewer.entities.add({
+          id: `relic-${relic.id}-secondary-pill`,
+          name: `${relic.name} (Opportunity) Label`,
+          isRelic: true,
+          position: secPosition,
+          billboard: {
+            image: getPillLabelIcon('OPPORTUNITY (MERIDIANI)', isSelected, normalizedBody),
+            scale: 0.48,
+            verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+            pixelOffset: new Cesium.Cartesian2(0, -18),
+            distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 6.0e7),
+            disableDepthTestDistance: Number.POSITIVE_INFINITY,
+          },
+        });
+        secPillEntity.relicData = relic;
       }
     });
 
@@ -499,17 +650,24 @@ export const CesiumGlobeViewer: React.FC<CesiumGlobeViewerProps> = React.memo(({
       while (lon > 180) lon -= 360;
       while (lon < -180) lon += 360;
 
-      const colorHex = isSelected
-        ? '#f472b6'
-        : landmark.type === 'volcano'
-        ? '#f87171'
-        : landmark.type === 'canyon'
-        ? '#fbbf24'
-        : landmark.type === 'crater'
-        ? '#c084fc'
-        : landmark.type === 'mare'
-        ? '#60a5fa'
-        : '#34d399';
+      const colorHex =
+        normalizedBody === 'MARS'
+          ? isSelected
+            ? '#D97706'
+            : landmark.type === 'volcano'
+            ? '#C87D32'
+            : landmark.type === 'canyon'
+            ? '#F5E6D3'
+            : landmark.type === 'crater'
+            ? '#A8A29E'
+            : '#D97706'
+          : isSelected
+          ? '#38BDF8'
+          : landmark.type === 'crater'
+          ? '#F8FAFC'
+          : landmark.type === 'mare'
+          ? '#94A3B8'
+          : '#38BDF8';
 
       const color = Cesium.Color.fromCssColorString(colorHex);
 
@@ -532,7 +690,7 @@ export const CesiumGlobeViewer: React.FC<CesiumGlobeViewerProps> = React.memo(({
         },
         label: {
           text: landmark.name,
-          font: "10px 'Space Grotesk', monospace",
+          font: "10px 'Chakra Petch', sans-serif",
           style: Cesium.LabelStyle.FILL_AND_OUTLINE,
           fillColor: color,
           outlineColor: Cesium.Color.BLACK,
@@ -636,18 +794,19 @@ export const CesiumGlobeViewer: React.FC<CesiumGlobeViewerProps> = React.memo(({
       ellipse: {
         semiMajorAxis: 25.0,
         semiMinorAxis: 25.0,
-        material: Cesium.Color.fromCssColorString('#00E5FF').withAlpha(0.35),
+        material: Cesium.Color.fromCssColorString(normalizedBody === 'MARS' ? '#D97706' : '#38BDF8').withAlpha(0.3),
         outline: true,
-        outlineColor: Cesium.Color.fromCssColorString('#00E5FF').withAlpha(0.9),
+        outlineColor: Cesium.Color.fromCssColorString(normalizedBody === 'MARS' ? '#D97706' : '#38BDF8').withAlpha(0.95),
         outlineWidth: 3.0,
       },
       label: {
-        text: `📍 ${relic.name.toUpperCase()} (3D MODEL ON SURFACE)`,
-        font: 'bold 12px "Space Mono", "Chakra Petch", monospace',
-        style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-        fillColor: Cesium.Color.fromCssColorString('#FEF08A'),
-        outlineColor: Cesium.Color.BLACK,
-        outlineWidth: 3,
+        text: `${relic.name.toUpperCase()} (3D MODEL ON SURFACE)`,
+        font: 'bold 12px "Chakra Petch", sans-serif',
+        style: Cesium.LabelStyle.FILL,
+        fillColor: Cesium.Color.fromCssColorString(normalizedBody === 'MARS' ? '#F5E6D3' : '#F8FAFC'),
+        showBackground: true,
+        backgroundColor: Cesium.Color.fromCssColorString(normalizedBody === 'MARS' ? '#1C140F' : '#0A0E17').withAlpha(0.92),
+        backgroundPadding: new Cesium.Cartesian2(10, 6),
         verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
         pixelOffset: new Cesium.Cartesian2(0, -45),
         distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 500000),
@@ -834,12 +993,24 @@ export const CesiumGlobeViewer: React.FC<CesiumGlobeViewerProps> = React.memo(({
 
       {/* Loading Overlay */}
       {!isCesiumLoaded && !loadError && (
-        <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-[#07080b]/95 backdrop-blur-sm text-neutral-200">
-          <Globe className="w-8 h-8 animate-spin mb-3 text-red-500" />
+        <div
+          className={`absolute inset-0 z-20 flex flex-col items-center justify-center backdrop-blur-sm ${
+            normalizedBody === 'MARS' ? 'bg-[#1C140F]/95 text-[#F5E6D3]' : 'bg-[#0A0E17]/95 text-[#F8FAFC]'
+          }`}
+        >
+          <Globe
+            className={`w-8 h-8 animate-spin mb-3 ${
+              normalizedBody === 'MARS' ? 'text-[#D97706]' : 'text-[#38BDF8]'
+            }`}
+          />
           <h4 className="text-sm font-semibold tracking-wider uppercase font-['Chakra_Petch']">
             Loading NASA {normalizedBody} 3D Engine
           </h4>
-          <p className="text-xs text-neutral-400 font-['Space_Grotesk'] mt-1">
+          <p
+            className={`text-xs font-['Space_Grotesk'] mt-1 ${
+              normalizedBody === 'MARS' ? 'text-[#A8A29E]' : 'text-[#94A3B8]'
+            }`}
+          >
             Streaming NASA Solar System Trek multi-resolution telemetry...
           </p>
         </div>
@@ -847,11 +1018,23 @@ export const CesiumGlobeViewer: React.FC<CesiumGlobeViewerProps> = React.memo(({
 
       {/* Load Error Notification */}
       {loadError && (
-        <div className="absolute inset-x-4 top-20 z-30 max-w-md mx-auto p-4 rounded-xl bg-neutral-900 border border-red-500/50 text-neutral-200 text-xs shadow-xl">
-          <div className="flex items-center gap-2 font-semibold text-red-400">
-            <span>⚠️ Telemetry Notice</span>
+        <div
+          className={`absolute inset-x-4 top-20 z-30 max-w-md mx-auto p-4 rounded-xl text-xs shadow-lg backdrop-blur-md ${
+            normalizedBody === 'MARS'
+              ? 'bg-[rgba(28,20,15,0.88)] border border-[#57534E] text-[#F5E6D3]'
+              : 'bg-[rgba(10,14,23,0.78)] border border-[rgba(248,250,252,0.16)] text-[#F8FAFC]'
+          }`}
+        >
+          <div
+            className={`flex items-center gap-2 font-['Chakra_Petch'] font-semibold ${
+              normalizedBody === 'MARS' ? 'text-[#D97706]' : 'text-[#38BDF8]'
+            }`}
+          >
+            <span>Telemetry Notice</span>
           </div>
-          <p className="mt-1 text-neutral-300">{loadError}</p>
+          <p className={`mt-1 font-['Space_Grotesk'] ${normalizedBody === 'MARS' ? 'text-[#A8A29E]' : 'text-[#94A3B8]'}`}>
+            {loadError}
+          </p>
         </div>
       )}
 
@@ -870,30 +1053,64 @@ export const CesiumGlobeViewer: React.FC<CesiumGlobeViewerProps> = React.memo(({
 
         {/* Minimal Hover Tooltip (Compact on mobile) */}
         {hoveredRelic && (
-          <div className="pointer-events-auto p-2.5 sm:p-3 max-w-[240px] rounded-2xl bg-[#0b0e17]/95 border border-cyan-500/30 backdrop-blur-xl shadow-2xl text-zinc-200 animate-in fade-in zoom-in-95">
-            <div className="flex items-center gap-1.5 text-[9px] sm:text-[10px] font-mono uppercase tracking-wider text-cyan-400 font-bold">
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(6,182,212,0.5)]" />
+          <div
+            className={`pointer-events-auto p-2.5 sm:p-3 max-w-[240px] rounded-2xl backdrop-blur-md shadow-lg animate-in fade-in zoom-in-95 ${
+              normalizedBody === 'MARS'
+                ? 'bg-[rgba(28,20,15,0.88)] border border-[#57534E] text-[#F5E6D3]'
+                : 'bg-[rgba(10,14,23,0.78)] border border-[rgba(248,250,252,0.16)] text-[#F8FAFC]'
+            }`}
+          >
+            <div
+              className={`flex items-center gap-1.5 text-[9px] sm:text-[10px] font-mono uppercase tracking-wider font-bold ${
+                normalizedBody === 'MARS' ? 'text-[#D97706]' : 'text-[#38BDF8]'
+              }`}
+            >
+              <span
+                className={`w-1.5 h-1.5 rounded-full ${
+                  normalizedBody === 'MARS' ? 'bg-[#D97706]' : 'bg-[#38BDF8]'
+                }`}
+              />
               <span>{hoveredRelic.statusLabel || 'Hardware'}</span>
             </div>
-            <h4 className="text-xs sm:text-sm font-semibold text-white mt-0.5 truncate">
+            <h4 className="text-xs sm:text-sm font-['Chakra_Petch'] font-semibold mt-0.5 truncate">
               {hoveredRelic.name}
             </h4>
-            <div className="mt-1.5 pt-1.5 border-t border-white/5 flex items-center justify-between text-[9px] font-mono text-zinc-400">
+            <div
+              className={`mt-1.5 pt-1.5 border-t flex items-center justify-between text-[9px] font-mono ${
+                normalizedBody === 'MARS'
+                  ? 'border-[#57534E]/60 text-[#A8A29E]'
+                  : 'border-[rgba(248,250,252,0.14)] text-[#94A3B8]'
+              }`}
+            >
               <span>View Dossier</span>
-              <ChevronRight className="w-3 h-3 text-cyan-400" />
+              <ChevronRight className={`w-3 h-3 ${normalizedBody === 'MARS' ? 'text-[#D97706]' : 'text-[#38BDF8]'}`} />
             </div>
           </div>
         )}
 
         {hoveredLandmark && !hoveredRelic && (
-          <div className="pointer-events-auto p-2.5 sm:p-3 max-w-[240px] rounded-2xl bg-[#0b0e17]/95 border border-cyan-500/30 backdrop-blur-xl shadow-2xl text-zinc-200 animate-in fade-in zoom-in-95">
-            <span className="text-[9px] sm:text-[10px] font-mono uppercase tracking-wider text-amber-400 font-bold block">
+          <div
+            className={`pointer-events-auto p-2.5 sm:p-3 max-w-[240px] rounded-2xl backdrop-blur-md shadow-lg animate-in fade-in zoom-in-95 ${
+              normalizedBody === 'MARS'
+                ? 'bg-[rgba(28,20,15,0.88)] border border-[#57534E] text-[#F5E6D3]'
+                : 'bg-[rgba(10,14,23,0.78)] border border-[rgba(248,250,252,0.16)] text-[#F8FAFC]'
+            }`}
+          >
+            <span
+              className={`text-[9px] sm:text-[10px] font-mono uppercase tracking-wider font-bold block ${
+                normalizedBody === 'MARS' ? 'text-[#D97706]' : 'text-[#38BDF8]'
+              }`}
+            >
               {hoveredLandmark.type}
             </span>
-            <h4 className="text-xs sm:text-sm font-semibold text-white mt-0.5 truncate">
+            <h4 className="text-xs sm:text-sm font-['Chakra_Petch'] font-semibold mt-0.5 truncate">
               {hoveredLandmark.name}
             </h4>
-            <p className="text-[10px] text-zinc-400 mt-1 line-clamp-2 leading-snug">
+            <p
+              className={`text-[10px] font-['Space_Grotesk'] mt-1 line-clamp-2 leading-snug ${
+                normalizedBody === 'MARS' ? 'text-[#A8A29E]' : 'text-[#94A3B8]'
+              }`}
+            >
               {hoveredLandmark.description}
             </p>
           </div>

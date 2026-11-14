@@ -290,12 +290,10 @@ export const CesiumPlanetaryViewer: React.FC<CesiumPlanetaryViewerProps> = ({
       while (lon < -180) lon += 360;
 
       const color = isSelected
-        ? Cesium.Color.fromCssColorString('#38bdf8')
+        ? Cesium.Color.fromCssColorString('#F8FAFC')
         : artifact.status === 'active_passive'
-        ? Cesium.Color.fromCssColorString('#34d399')
-        : body === 'mars'
-        ? Cesium.Color.fromCssColorString('#fb923c')
-        : Cesium.Color.fromCssColorString('#f59e0b');
+        ? Cesium.Color.fromCssColorString('#38BDF8')
+        : Cesium.Color.fromCssColorString('#0EA5E9');
 
       viewer.entities.add({
         id: `artifact-${artifact.id}`,
@@ -305,7 +303,7 @@ export const CesiumPlanetaryViewer: React.FC<CesiumPlanetaryViewerProps> = ({
         point: {
           pixelSize: isSelected ? 16 : 10,
           color: color,
-          outlineColor: Cesium.Color.WHITE,
+          outlineColor: Cesium.Color.fromCssColorString('#38BDF8'),
           outlineWidth: 2,
           disableDepthTestDistance: Number.POSITIVE_INFINITY,
         },
@@ -346,16 +344,16 @@ export const CesiumPlanetaryViewer: React.FC<CesiumPlanetaryViewerProps> = ({
       while (lon < -180) lon += 360;
 
       const color = isSelected
-        ? Cesium.Color.fromCssColorString('#f472b6')
+        ? Cesium.Color.fromCssColorString('#F8FAFC')
         : landmark.type === 'volcano'
-        ? Cesium.Color.fromCssColorString('#f87171')
+        ? Cesium.Color.fromCssColorString('#7C3AED')
         : landmark.type === 'canyon'
-        ? Cesium.Color.fromCssColorString('#fbbf24')
+        ? Cesium.Color.fromCssColorString('#38BDF8')
         : landmark.type === 'crater'
-        ? Cesium.Color.fromCssColorString('#c084fc')
+        ? Cesium.Color.fromCssColorString('#9333EA')
         : landmark.type === 'mare'
-        ? Cesium.Color.fromCssColorString('#60a5fa')
-        : Cesium.Color.fromCssColorString('#34d399');
+        ? Cesium.Color.fromCssColorString('#E0F2FE')
+        : Cesium.Color.fromCssColorString('#0EA5E9');
 
       viewer.entities.add({
         id: `landmark-${landmark.id}`,
@@ -449,17 +447,17 @@ export const CesiumPlanetaryViewer: React.FC<CesiumPlanetaryViewerProps> = ({
       ellipse: {
         semiMajorAxis: 20.0,
         semiMinorAxis: 20.0,
-        material: Cesium.Color.fromCssColorString('#00E5FF').withAlpha(0.25),
+        material: Cesium.Color.fromCssColorString('#38BDF8').withAlpha(0.25),
         outline: true,
-        outlineColor: Cesium.Color.fromCssColorString('#00E5FF').withAlpha(0.9),
+        outlineColor: Cesium.Color.fromCssColorString('#38BDF8').withAlpha(0.95),
         outlineWidth: 2.5,
       },
       label: {
-        text: `📍 ${selectedArtifact.name.toUpperCase()} (SURFACE 3D MODEL)`,
+        text: `${selectedArtifact.name.toUpperCase()} (SURFACE 3D MODEL)`,
         font: 'bold 12px "Space Mono", "Chakra Petch", monospace',
         style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-        fillColor: Cesium.Color.fromCssColorString('#FEF08A'),
-        outlineColor: Cesium.Color.BLACK,
+        fillColor: Cesium.Color.fromCssColorString('#F8FAFC'),
+        outlineColor: Cesium.Color.fromCssColorString('#06090F'),
         outlineWidth: 3,
         verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
         pixelOffset: new Cesium.Cartesian2(0, -35),
@@ -526,18 +524,18 @@ export const CesiumPlanetaryViewer: React.FC<CesiumPlanetaryViewerProps> = ({
   };
 
   return (
-    <div className="relative w-full h-full select-none overflow-hidden bg-[#03050a]">
+    <div className="relative w-full h-full select-none overflow-hidden bg-[#06090F]">
       {/* Cesium Viewer Container */}
       <div ref={containerRef} className="w-full h-full" />
 
       {/* Loading state */}
       {!isCesiumReady && !loadError && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-950/90 z-20 gap-3">
-          <div className="w-10 h-10 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin" />
-          <p className="font-mono text-sm text-cyan-300 tracking-wider uppercase">
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#06090F]/95 z-20 gap-3">
+          <div className="w-10 h-10 border-2 border-[#38BDF8] border-t-transparent rounded-full animate-spin" />
+          <p className="font-mono text-sm text-[#38BDF8] tracking-wider uppercase">
             INITIALIZING CESIUM 3D {body === 'mars' ? 'MARS' : 'LUNAR'} ENGINE...
           </p>
-          <span className="text-xs text-slate-400">
+          <span className="text-xs text-[#E0F2FE]/75">
             Connecting to Planetary High-Res Stream
           </span>
         </div>
@@ -545,54 +543,50 @@ export const CesiumPlanetaryViewer: React.FC<CesiumPlanetaryViewerProps> = ({
 
       {/* Error state */}
       {loadError && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-950/90 z-20 p-6 text-center">
-          <p className="text-amber-400 font-bold mb-2">Notice: {loadError}</p>
-          <p className="text-xs text-slate-400 max-w-md">
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#06090F]/95 z-20 p-6 text-center">
+          <p className="text-[#A78BFA] font-bold mb-2">Notice: {loadError}</p>
+          <p className="text-xs text-[#E0F2FE]/75 max-w-md">
             Please ensure you have an active network connection to load the Cesium library.
           </p>
         </div>
       )}
 
       {/* Planetary Engine & Status HUD (Top Left) */}
-      <div className="absolute top-20 left-4 z-10 pointer-events-none text-slate-400 text-xs font-mono bg-slate-950/80 border border-slate-800/90 rounded-2xl px-4 py-3 backdrop-blur-md shadow-2xl hidden sm:block">
+      <div className="absolute top-20 left-4 z-10 pointer-events-none text-[#E0F2FE]/80 text-xs font-mono bg-[rgba(6,9,15,0.90)] border-2 border-[#38BDF8]/60 rounded-2xl px-4 py-3 backdrop-blur-md shadow-[0_0_24px_rgba(56,189,248,0.18)] hidden sm:block">
         <div className="flex items-center gap-2">
-          <span
-            className={`w-2.5 h-2.5 rounded-full ${
-              body === 'mars' ? 'bg-amber-400' : 'bg-cyan-400'
-            } animate-pulse`}
-          />
-          <span className="text-white font-bold font-telemetry tracking-wide">
+          <span className="w-2.5 h-2.5 rounded-full bg-[#38BDF8] animate-pulse shadow-[0_0_8px_#38BDF8]" />
+          <span className="text-[#F8FAFC] font-bold font-telemetry tracking-wide">
             CESIUM 3D {body === 'mars' ? 'MARS' : 'MOON'}
           </span>
-          <span className="text-[10px] px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800/50">
+          <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/40">
             HIGH-RES
           </span>
         </div>
 
-        <div className="mt-2 text-[11px] text-slate-300 space-y-0.5">
+        <div className="mt-2 text-[11px] text-[#E0F2FE] space-y-0.5">
           <div>
-            <span className="text-slate-400">Ellipsoid: </span>
-            <span className="text-white font-medium">
+            <span className="text-[#E0F2FE]/65">Ellipsoid: </span>
+            <span className="text-[#F8FAFC] font-medium">
               {body === 'mars' ? 'Mars (3,389.5 km)' : 'Moon (1,737.4 km)'}
             </span>
           </div>
           <div>
-            <span className="text-slate-400">Stream: </span>
-            <span className="text-cyan-300 font-bold">
+            <span className="text-[#E0F2FE]/65">Stream: </span>
+            <span className="text-[#38BDF8] font-bold">
               {body === 'mars'
                 ? 'NASA Mars Viking 232m'
                 : 'NASA LRO WAC 303 PPD'}
             </span>
           </div>
-          <div className="text-[10px] text-slate-400 pt-1">
+          <div className="text-[10px] text-[#E0F2FE]/65 pt-1">
             • Left-drag: Rotate • Right-drag: 3D Tilt • Scroll: Zoom
           </div>
         </div>
 
-        <div className="mt-2.5 pt-2 border-t border-slate-800 flex items-center justify-between pointer-events-auto gap-2">
+        <div className="mt-2.5 pt-2 border-t border-[#38BDF8]/20 flex items-center justify-between pointer-events-auto gap-2">
           <div className="flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-            <span className="text-[10px] text-slate-300">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#38BDF8]" />
+            <span className="text-[10px] text-[#E0F2FE]">
               {streamStatus === 'streaming_tileset'
                 ? '3D Tiles Active'
                 : 'Multi-Res Streaming'}
@@ -601,7 +595,7 @@ export const CesiumPlanetaryViewer: React.FC<CesiumPlanetaryViewerProps> = ({
 
           <button
             onClick={() => setIsTokenModalOpen(true)}
-            className="text-[10px] text-cyan-400 hover:text-cyan-300 underline flex items-center gap-1"
+            className="text-[10px] text-[#38BDF8] hover:text-[#F8FAFC] underline flex items-center gap-1"
             title="Optional Cesium Ion token for custom 3D Tiles"
           >
             <Key className="w-2.5 h-2.5" />
@@ -633,10 +627,10 @@ export const CesiumPlanetaryViewer: React.FC<CesiumPlanetaryViewerProps> = ({
               });
             }
           }}
-          className="px-3 py-1.5 rounded-xl bg-slate-950/80 border border-slate-800 text-[11px] font-mono text-slate-300 hover:text-white hover:bg-slate-900 backdrop-blur-md shadow-md transition-all flex items-center gap-1.5"
+          className="px-3 py-1.5 rounded-xl bg-[rgba(6,9,15,0.90)] border border-[#38BDF8]/60 text-[11px] font-mono text-[#F8FAFC] hover:bg-[#38BDF8] hover:text-[#06090F] backdrop-blur-md shadow-md transition-all flex items-center gap-1.5"
           title="Reset Global View"
         >
-          <span>{body === 'mars' ? '🔴 Mars Overview' : '🌕 Moon Overview'}</span>
+          <span>{body === 'mars' ? 'Mars Overview' : 'Moon Overview'}</span>
         </button>
 
         {body === 'moon' ? (
@@ -657,10 +651,10 @@ export const CesiumPlanetaryViewer: React.FC<CesiumPlanetaryViewerProps> = ({
                   });
                 }
               }}
-              className="px-3 py-1.5 rounded-xl bg-slate-950/80 border border-slate-800 text-[11px] font-mono text-cyan-300 hover:text-cyan-100 hover:bg-cyan-950/40 backdrop-blur-md shadow-md transition-all flex items-center gap-1.5"
+              className="px-3 py-1.5 rounded-xl bg-[rgba(6,9,15,0.90)] border border-[#38BDF8]/60 text-[11px] font-mono text-[#38BDF8] hover:bg-[#38BDF8] hover:text-[#06090F] backdrop-blur-md shadow-md transition-all flex items-center gap-1.5"
               title="Fly to Apollo 11 Base"
             >
-              <span>🦅 Apollo 11 Base</span>
+              <span>Apollo 11 Base</span>
             </button>
             <button
               onClick={() => {
@@ -678,10 +672,10 @@ export const CesiumPlanetaryViewer: React.FC<CesiumPlanetaryViewerProps> = ({
                   });
                 }
               }}
-              className="px-3 py-1.5 rounded-xl bg-slate-950/80 border border-slate-800 text-[11px] font-mono text-purple-300 hover:text-purple-100 hover:bg-purple-950/40 backdrop-blur-md shadow-md transition-all flex items-center gap-1.5"
+              className="px-3 py-1.5 rounded-xl bg-[rgba(6,9,15,0.90)] border border-[#7C3AED]/60 text-[11px] font-mono text-[#A78BFA] hover:bg-[#7C3AED] hover:text-[#F8FAFC] backdrop-blur-md shadow-md transition-all flex items-center gap-1.5"
               title="Fly to Lunar South Pole Ice"
             >
-              <span>❄️ South Pole Cabeus Ice</span>
+              <span>South Pole Cabeus Ice</span>
             </button>
           </>
         ) : (
@@ -702,10 +696,10 @@ export const CesiumPlanetaryViewer: React.FC<CesiumPlanetaryViewerProps> = ({
                   });
                 }
               }}
-              className="px-3 py-1.5 rounded-xl bg-slate-950/80 border border-slate-800 text-[11px] font-mono text-red-300 hover:text-red-100 hover:bg-red-950/40 backdrop-blur-md shadow-md transition-all flex items-center gap-1.5"
+              className="px-3 py-1.5 rounded-xl bg-[rgba(6,9,15,0.90)] border border-[#7C3AED]/60 text-[11px] font-mono text-[#A78BFA] hover:bg-[#7C3AED] hover:text-[#F8FAFC] backdrop-blur-md shadow-md transition-all flex items-center gap-1.5"
               title="Fly to Olympus Mons Summit"
             >
-              <span>🌋 Olympus Mons Summit</span>
+              <span>Olympus Mons Summit</span>
             </button>
             <button
               onClick={() => {
@@ -723,10 +717,10 @@ export const CesiumPlanetaryViewer: React.FC<CesiumPlanetaryViewerProps> = ({
                   });
                 }
               }}
-              className="px-3 py-1.5 rounded-xl bg-slate-950/80 border border-slate-800 text-[11px] font-mono text-amber-300 hover:text-amber-100 hover:bg-amber-950/40 backdrop-blur-md shadow-md transition-all flex items-center gap-1.5"
+              className="px-3 py-1.5 rounded-xl bg-[rgba(6,9,15,0.90)] border border-[#38BDF8]/60 text-[11px] font-mono text-[#38BDF8] hover:bg-[#38BDF8] hover:text-[#06090F] backdrop-blur-md shadow-md transition-all flex items-center gap-1.5"
               title="Fly to Grand Canyon of Mars"
             >
-              <span>🏜️ Valles Marineris Canyon</span>
+              <span>Valles Marineris Canyon</span>
             </button>
             <button
               onClick={() => {
@@ -744,10 +738,10 @@ export const CesiumPlanetaryViewer: React.FC<CesiumPlanetaryViewerProps> = ({
                   });
                 }
               }}
-              className="px-3 py-1.5 rounded-xl bg-slate-950/80 border border-slate-800 text-[11px] font-mono text-cyan-300 hover:text-cyan-100 hover:bg-cyan-950/40 backdrop-blur-md shadow-md transition-all flex items-center gap-1.5"
+              className="px-3 py-1.5 rounded-xl bg-[rgba(6,9,15,0.90)] border border-[#38BDF8]/60 text-[11px] font-mono text-[#E0F2FE] hover:bg-[#38BDF8] hover:text-[#06090F] backdrop-blur-md shadow-md transition-all flex items-center gap-1.5"
               title="Fly to Jezero Crater (Perseverance & Ingenuity)"
             >
-              <span>🚁 Jezero Delta (Percy)</span>
+              <span>Jezero Delta (Percy)</span>
             </button>
           </>
         )}
@@ -755,17 +749,17 @@ export const CesiumPlanetaryViewer: React.FC<CesiumPlanetaryViewerProps> = ({
 
       {/* Hover preview tooltip for Artifact */}
       {hoveredArtifact && (
-        <div className="absolute bottom-24 left-1/2 -translate-x-1/2 z-20 pointer-events-none bg-slate-950/95 border border-cyan-500/40 rounded-xl px-4 py-2.5 shadow-2xl backdrop-blur-md text-center max-w-sm animate-in fade-in zoom-in-95">
-          <span className="text-[10px] font-mono uppercase text-cyan-400 font-bold tracking-wider block">
+        <div className="absolute bottom-24 left-1/2 -translate-x-1/2 z-20 pointer-events-none bg-[rgba(6,9,15,0.94)] border-2 border-[#38BDF8] rounded-xl px-4 py-2.5 shadow-[0_0_24px_rgba(56,189,248,0.28)] backdrop-blur-md text-center max-w-sm animate-in fade-in zoom-in-95">
+          <span className="text-[10px] font-mono uppercase text-[#38BDF8] font-bold tracking-wider block">
             {hoveredArtifact.date} • {hoveredArtifact.locationName}
           </span>
-          <h4 className="text-sm font-bold text-white font-telemetry">
+          <h4 className="text-sm font-bold text-[#F8FAFC] font-telemetry">
             {hoveredArtifact.name}
           </h4>
-          <p className="text-xs text-slate-300 mt-1 line-clamp-1 italic">
+          <p className="text-xs text-[#E0F2FE]/85 mt-1 line-clamp-1 italic">
             "{hoveredArtifact.story.headline}"
           </p>
-          <span className="text-[10px] font-mono text-emerald-400 block mt-1">
+          <span className="text-[10px] font-mono text-[#38BDF8] block mt-1">
             Click to open mission dossier
           </span>
         </div>
@@ -773,8 +767,8 @@ export const CesiumPlanetaryViewer: React.FC<CesiumPlanetaryViewerProps> = ({
 
       {/* Hover preview tooltip for Landmark */}
       {hoveredLandmark && !hoveredArtifact && (
-        <div className="absolute bottom-24 left-1/2 -translate-x-1/2 z-20 pointer-events-none bg-slate-950/95 border border-purple-500/50 rounded-xl px-4 py-2.5 shadow-2xl backdrop-blur-md text-center max-w-sm animate-in fade-in zoom-in-95">
-          <div className="flex items-center justify-center gap-1.5 text-[10px] font-mono uppercase text-purple-400 font-bold tracking-wider">
+        <div className="absolute bottom-24 left-1/2 -translate-x-1/2 z-20 pointer-events-none bg-[rgba(6,9,15,0.94)] border-2 border-[#7C3AED] rounded-xl px-4 py-2.5 shadow-[0_0_24px_rgba(124,58,237,0.28)] backdrop-blur-md text-center max-w-sm animate-in fade-in zoom-in-95">
+          <div className="flex items-center justify-center gap-1.5 text-[10px] font-mono uppercase text-[#A78BFA] font-bold tracking-wider">
             <span>
               {hoveredLandmark.type === 'volcano'
                 ? 'Martian Volcano'
@@ -793,14 +787,14 @@ export const CesiumPlanetaryViewer: React.FC<CesiumPlanetaryViewerProps> = ({
               </>
             )}
           </div>
-          <h4 className="text-sm font-bold text-white font-telemetry mt-0.5">
+          <h4 className="text-sm font-bold text-[#F8FAFC] font-telemetry mt-0.5">
             {hoveredLandmark.name}
           </h4>
-          <p className="text-xs text-slate-300 mt-1 line-clamp-2">
+          <p className="text-xs text-[#E0F2FE]/85 mt-1 line-clamp-2">
             {hoveredLandmark.description}
           </p>
           {hoveredLandmark.associatedArtifactId && (
-            <span className="inline-block mt-1 text-[10px] font-mono text-cyan-300 bg-cyan-950/80 px-2 py-0.5 rounded border border-cyan-800/40">
+            <span className="inline-block mt-1 text-[10px] font-mono text-[#38BDF8] bg-[#38BDF8]/10 px-2 py-0.5 rounded border border-[#38BDF8]/35">
               NASA Mission Site Nearby • Click to explore
             </span>
           )}
@@ -809,29 +803,29 @@ export const CesiumPlanetaryViewer: React.FC<CesiumPlanetaryViewerProps> = ({
 
       {/* Cesium Ion Access Token Modal */}
       {isTokenModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
-          <div className="bg-slate-950 border border-slate-800 rounded-2xl p-5 max-w-md w-full shadow-2xl animate-in fade-in zoom-in-95">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#06090F]/80 backdrop-blur-sm p-4">
+          <div className="bg-[#0D131F] border-2 border-[#38BDF8] rounded-2xl p-5 max-w-md w-full shadow-[0_0_28px_rgba(56,189,248,0.25)] animate-in fade-in zoom-in-95">
+            <div className="flex items-center justify-between pb-3 border-b border-[#38BDF8]/20">
               <div className="flex items-center gap-2">
-                <Key className="w-4 h-4 text-cyan-400" />
-                <h3 className="font-bold text-white text-sm font-telemetry">
+                <Key className="w-4 h-4 text-[#38BDF8]" />
+                <h3 className="font-bold text-[#F8FAFC] text-sm font-telemetry">
                   Cesium Ion Access Token (Optional)
                 </h3>
               </div>
               <button
                 onClick={() => setIsTokenModalOpen(false)}
-                className="text-slate-400 hover:text-white text-sm"
+                className="text-[#E0F2FE]/70 hover:text-[#F8FAFC] text-sm"
               >
                 ✕
               </button>
             </div>
-            <p className="text-xs text-slate-300 mt-3 leading-relaxed">
+            <p className="text-xs text-[#E0F2FE]/80 mt-3 leading-relaxed">
               Cesium 3D natively renders using ultra-high-resolution NASA scientific multi-resolution tile streams (LRO Lunar Reconnaissance Orbiter & Mars Viking MDIM 2.1). If you have private Cesium Ion assets or want to stream custom 3D Tilesets, you can supply your free personal{' '}
               <a
                 href="https://cesium.com/ion/"
                 target="_blank"
                 rel="noreferrer"
-                className="text-cyan-400 underline"
+                className="text-[#38BDF8] underline"
               >
                 Cesium ion token
               </a>.
@@ -841,18 +835,18 @@ export const CesiumPlanetaryViewer: React.FC<CesiumPlanetaryViewerProps> = ({
               value={ionToken}
               onChange={(e) => setIonToken(e.target.value)}
               placeholder="Paste Cesium Ion token here..."
-              className="mt-3 w-full px-3 py-2 text-xs rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-500 font-mono focus:outline-none focus:border-cyan-500"
+              className="mt-3 w-full px-3 py-2 text-xs rounded-xl bg-[#06090F] border border-[#38BDF8]/40 text-[#F8FAFC] placeholder-[#E0F2FE]/40 font-mono focus:outline-none focus:border-[#38BDF8]"
             />
             <div className="mt-4 flex items-center justify-end gap-2">
               <button
                 onClick={() => setIsTokenModalOpen(false)}
-                className="px-3 py-1.5 text-xs text-slate-400 hover:text-slate-200"
+                className="px-3 py-1.5 text-xs text-[#E0F2FE]/70 hover:text-[#F8FAFC]"
               >
                 Cancel
               </button>
               <button
                 onClick={handleSaveToken}
-                className="px-4 py-1.5 text-xs font-bold rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white shadow-md flex items-center gap-1.5"
+                className="px-4 py-1.5 text-xs font-bold rounded-xl bg-[#38BDF8] hover:bg-[#0EA5E9] text-[#06090F] shadow-md flex items-center gap-1.5"
               >
                 <Check className="w-3.5 h-3.5" />
                 <span>Save Token & Reload</span>

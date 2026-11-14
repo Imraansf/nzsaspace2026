@@ -4,13 +4,13 @@ import {
   getArtifacts,
   getPlanetaryLandmarks,
   getArtifactById,
-  getArtifactColor,
 } from './utils/space-data';
 import { CelestialGlobe } from './components/CelestialGlobe';
 import { CesiumGlobeViewer } from './components/CesiumGlobeViewer';
 import { DeepSpaceExplorer } from './components/DeepSpaceExplorer';
 import { StoryDrawer } from './components/StoryDrawer';
 import { LandingIntro } from './components/LandingIntro';
+import { MapOnboardingPostcards } from './components/MapOnboardingPostcards';
 import {
   Volume2,
   VolumeX,
@@ -116,8 +116,14 @@ export default function App() {
     return <LandingIntro onSelectZone={handleSelectZoneFromLanding} />;
   }
 
+  const isMars = currentBody === 'mars';
+
   return (
-    <div className="relative w-screen h-screen overflow-hidden bg-[#050608] text-zinc-100 font-sans select-none">
+    <div
+      className={`relative w-screen h-screen overflow-hidden font-['Space_Grotesk'] select-none ${
+        isMars ? 'bg-[#1C140F] text-[#F5E6D3]' : 'bg-[#06090F] text-[#F8FAFC]'
+      }`}
+    >
       {/* 1. Main 3D Viewport (hidden when full-screen menus are open to conserve GPU/WebGL context) */}
       <div className={`absolute inset-0 z-0 ${isOverlayOpen ? 'hidden pointer-events-none' : 'block'}`}>
         <ViewportSection
@@ -143,18 +149,32 @@ export default function App() {
             playTelemetryBeep(420);
             setIsMenuOpen((prev) => !prev);
           }}
-          className="min-h-[40px] px-3.5 py-2 rounded-xl bg-[#fffdf7] hover:bg-[#fde047] border-[3px] border-[#1e1b4b] text-[#1e1b4b] text-xs font-mono font-black flex items-center gap-2 shadow-[0_4px_0_#1e1b4b] active:translate-y-0.5 active:shadow-[0_2px_0_#1e1b4b] transition-all"
+          className={`font-['Chakra_Petch'] min-h-[40px] px-3.5 py-2 rounded-xl backdrop-blur-md border text-xs font-bold flex items-center gap-2 shadow-lg active:translate-y-0.5 transition-all ${
+            isMars
+              ? 'bg-[rgba(28,20,15,0.85)] hover:bg-[#291D16] border-[#57534E] text-[#F5E6D3]'
+              : 'bg-[rgba(10,14,23,0.78)] hover:bg-[rgba(15,23,42,0.9)] border-[rgba(248,250,252,0.16)] text-[#F8FAFC]'
+          }`}
           aria-expanded={isMenuOpen}
         >
-          {isMenuOpen ? <X className="w-4 h-4 text-[#1e1b4b]" /> : <Menu className="w-4 h-4 text-[#ea580c]" />}
-          <span>Menu</span>
-          <span className="text-[#b45309] font-extrabold">
+          {isMenuOpen ? (
+            <X className={`w-4 h-4 ${isMars ? 'text-[#D97706]' : 'text-[#38BDF8]'}`} />
+          ) : (
+            <Menu className={`w-4 h-4 ${isMars ? 'text-[#D97706]' : 'text-[#38BDF8]'}`} />
+          )}
+          <span className="tracking-wide uppercase">Menu</span>
+          <span className={`font-bold ${isMars ? 'text-[#D97706]' : 'text-[#38BDF8]'}`}>
             · {currentBody === 'deep_space' ? 'Deep Space' : currentBody === 'mars' ? 'Mars' : 'Moon'}
           </span>
         </button>
 
         {isMenuOpen && (
-          <div className="w-64 bg-[#fffdf7] border-[3px] border-[#1e1b4b] rounded-2xl p-1.5 shadow-[0_6px_0_#1e1b4b] flex flex-col gap-1 animate-in fade-in slide-in-from-top-2 duration-150">
+          <div
+            className={`w-64 backdrop-blur-md border rounded-2xl p-1.5 shadow-xl flex flex-col gap-1 animate-in fade-in slide-in-from-top-2 duration-150 ${
+              isMars
+                ? 'bg-[rgba(28,20,15,0.90)] border-[#57534E]'
+                : 'bg-[rgba(10,14,23,0.86)] border-[rgba(248,250,252,0.16)]'
+            }`}
+          >
             <button
               onClick={() => {
                 playTelemetryBeep(380);
@@ -164,12 +184,22 @@ export default function App() {
                 setIsDossierOpen(false);
                 setShowLanding(true);
               }}
-              className="w-full min-h-[40px] px-3 py-2 rounded-xl text-left text-xs font-bold text-[#1e1b4b] bg-[#fffbeb] hover:bg-[#fde047] border-2 border-transparent hover:border-[#1e1b4b] flex items-center gap-2.5 transition-all"
+              className={`font-['Chakra_Petch'] w-full min-h-[40px] px-3 py-2 rounded-xl text-left text-xs font-bold border flex items-center gap-2.5 transition-all ${
+                isMars
+                  ? 'text-[#F5E6D3] bg-[#291D16] hover:bg-[#44403C] border-[#44403C] hover:border-[#D97706]'
+                  : 'text-[#F8FAFC] bg-[rgba(15,23,42,0.65)] hover:bg-[rgba(248,250,252,0.1)] border-[rgba(248,250,252,0.14)] hover:border-[#38BDF8]'
+              }`}
             >
-              <Home className="w-4 h-4 text-[#ea580c] shrink-0" />
+              <Home className={`w-4 h-4 shrink-0 ${isMars ? 'text-[#D97706]' : 'text-[#38BDF8]'}`} />
               <div>
-                <div className="font-black">Back to Main Menu</div>
-                <div className="text-[10px] text-[#b45309] font-mono font-bold">
+                <div className={`font-bold ${isMars ? 'text-[#F5E6D3]' : 'text-[#F8FAFC]'}`}>
+                  Back to Main Menu
+                </div>
+                <div
+                  className={`font-['Space_Grotesk'] text-[10px] font-normal ${
+                    isMars ? 'text-[#A8A29E]' : 'text-[#94A3B8]'
+                  }`}
+                >
                   Choose Moon, Mars, or Deep Space
                 </div>
               </div>
@@ -179,25 +209,55 @@ export default function App() {
               onClick={() => {
                 handleToggleMute();
               }}
-              className="w-full min-h-[40px] px-3 py-2 rounded-xl text-left text-xs font-bold text-[#1e1b4b] bg-[#fffbeb] hover:bg-[#fef08a] border-2 border-transparent hover:border-[#1e1b4b] flex items-center gap-2.5 transition-all"
+              className={`font-['Chakra_Petch'] w-full min-h-[40px] px-3 py-2 rounded-xl text-left text-xs font-bold border flex items-center gap-2.5 transition-all ${
+                isMars
+                  ? 'text-[#F5E6D3] bg-[#291D16] hover:bg-[#44403C] border-[#44403C] hover:border-[#D97706]'
+                  : 'text-[#F8FAFC] bg-[rgba(15,23,42,0.65)] hover:bg-[rgba(248,250,252,0.1)] border-[rgba(248,250,252,0.14)] hover:border-[#38BDF8]'
+              }`}
             >
               {isMuted ? (
-                <VolumeX className="w-4 h-4 text-[#b45309] shrink-0" />
+                <VolumeX className={`w-4 h-4 shrink-0 ${isMars ? 'text-[#A8A29E]' : 'text-[#94A3B8]'}`} />
               ) : (
-                <Volume2 className="w-4 h-4 text-[#ea580c] shrink-0" />
+                <Volume2 className={`w-4 h-4 shrink-0 ${isMars ? 'text-[#D97706]' : 'text-[#38BDF8]'}`} />
               )}
-              <span className="font-extrabold">{isMuted ? 'Unmute Audio' : 'Mute Audio'}</span>
+              <span className="font-bold">{isMuted ? 'Unmute Audio' : 'Mute Audio'}</span>
             </button>
           </div>
         )}
       </nav>
 
-      {/* 3. Floating Planetary Landmark Card: Minimalist NASA Spec Sheet */}
+      {/* 2B. Right-Side Quick Tutorial Popups (Zone-Themed) */}
+      <MapOnboardingPostcards
+        zone={currentBody}
+        isTemporarilyHidden={Boolean(
+          selectedLandmark || (selectedArtifact && showSmallPopup) || isOverlayOpen
+        )}
+      />
+
+      {/* 3. Floating Planetary Landmark Card */}
       {selectedLandmark && currentBody !== 'deep_space' && (
-        <div className="absolute top-16 right-3 sm:right-4 left-3 sm:left-auto w-auto sm:w-64 max-w-[260px] z-30 bg-[#1e1f20]/95 border border-white/10 rounded-xl p-2.5 sm:p-3 shadow-2xl backdrop-blur-xl animate-in fade-in slide-in-from-right-4 duration-300">
-          <div className="flex items-center justify-between gap-2 border-b border-white/10 pb-1.5">
-            <div className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-widest font-mono text-amber-400">
-              <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+        <div
+          className={`absolute top-16 right-3 sm:right-4 left-3 sm:left-auto w-auto sm:w-64 max-w-[260px] z-30 rounded-xl p-2.5 sm:p-3 shadow-xl backdrop-blur-md border animate-in fade-in slide-in-from-right-4 duration-300 ${
+            isMars
+              ? 'bg-[rgba(28,20,15,0.88)] border-[#57534E] text-[#F5E6D3]'
+              : 'bg-[rgba(10,14,23,0.82)] border-[rgba(248,250,252,0.16)] text-[#F8FAFC]'
+          }`}
+        >
+          <div
+            className={`flex items-center justify-between gap-2 border-b pb-1.5 ${
+              isMars ? 'border-[#57534E]/60' : 'border-[rgba(248,250,252,0.14)]'
+            }`}
+          >
+            <div
+              className={`flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-widest font-mono ${
+                isMars ? 'text-[#D97706]' : 'text-[#38BDF8]'
+              }`}
+            >
+              <span
+                className={`w-1.5 h-1.5 rounded-full animate-pulse ${
+                  isMars ? 'bg-[#D97706]' : 'bg-[#38BDF8]'
+                }`}
+              />
               {selectedLandmark.type === 'volcano'
                 ? 'Shield Volcano'
                 : selectedLandmark.type === 'canyon'
@@ -211,7 +271,11 @@ export default function App() {
             </div>
             <button
               onClick={() => setSelectedLandmark(null)}
-              className="p-1 rounded-md hover:bg-white/10 text-zinc-400 hover:text-white transition-colors"
+              className={`p-1 rounded-md transition-colors ${
+                isMars
+                  ? 'hover:bg-[#44403C] text-[#A8A29E] hover:text-[#F5E6D3]'
+                  : 'hover:bg-[rgba(248,250,252,0.1)] text-[#94A3B8] hover:text-[#F8FAFC]'
+              }`}
               aria-label="Close landmark info"
             >
               <X className="w-3.5 h-3.5" />
@@ -219,10 +283,18 @@ export default function App() {
           </div>
 
           <div className="mt-2 space-y-0.5">
-            <h3 className="text-sm font-bold tracking-tight text-white truncate">
+            <h3
+              className={`font-['Chakra_Petch'] text-sm font-bold tracking-tight truncate ${
+                isMars ? 'text-[#F5E6D3]' : 'text-[#F8FAFC]'
+              }`}
+            >
               {selectedLandmark.name}
             </h3>
-            <div className="text-[10px] font-mono text-zinc-400 truncate">
+            <div
+              className={`text-[10px] font-mono tabular-nums truncate ${
+                isMars ? 'text-[#A8A29E]' : 'text-[#94A3B8]'
+              }`}
+            >
               {selectedLandmark.coordinates.lat >= 0
                 ? `${selectedLandmark.coordinates.lat.toFixed(1)}°N`
                 : `${Math.abs(selectedLandmark.coordinates.lat).toFixed(1)}°S`}
@@ -233,7 +305,11 @@ export default function App() {
             </div>
           </div>
 
-          <p className="text-xs text-zinc-300 mt-2 leading-relaxed line-clamp-2">
+          <p
+            className={`font-['Space_Grotesk'] text-xs mt-2 leading-relaxed line-clamp-2 ${
+              isMars ? 'text-[#E7E5E4]' : 'text-[#94A3B8]'
+            }`}
+          >
             {selectedLandmark.description}
           </p>
 
@@ -247,7 +323,11 @@ export default function App() {
                   handleSelectArtifact(artifact);
                 }
               }}
-              className="mt-2.5 w-full py-1.5 px-3 rounded-lg bg-white text-zinc-950 font-semibold text-xs flex items-center justify-center gap-1 transition-all hover:bg-zinc-100 shadow-md"
+              className={`font-['Chakra_Petch'] mt-2.5 w-full py-1.5 px-3 rounded-lg font-bold text-xs flex items-center justify-center gap-1 transition-all ${
+                isMars
+                  ? 'bg-[#D97706] hover:bg-[#C87D32] text-[#1C140F]'
+                  : 'bg-[#38BDF8] hover:bg-[#7DD3FC] text-[#0A0E17]'
+              }`}
             >
               <span>View Hardware</span>
               <ChevronRight className="w-3.5 h-3.5" />
@@ -267,16 +347,20 @@ export default function App() {
               playTelemetryBeep(400);
               setIsTimelineCollapsed(!isTimelineCollapsed);
             }}
-            className="pointer-events-auto px-4 sm:px-5 py-1.5 sm:py-2 rounded-full bg-[#facc15] hover:bg-[#fde047] border-[3px] border-[#1e1b4b] shadow-[0_4px_0_#1e1b4b] text-[11px] sm:text-xs font-black text-[#1e1b4b] flex items-center gap-1.5 sm:gap-2 transition-all active:translate-y-0.5 active:shadow-[0_2px_0_#1e1b4b]"
+            className={`font-['Chakra_Petch'] pointer-events-auto px-4 sm:px-5 py-1.5 sm:py-2 rounded-full border shadow-lg text-[11px] sm:text-xs font-bold flex items-center gap-1.5 sm:gap-2 transition-all active:translate-y-0.5 backdrop-blur-md ${
+              isMars
+                ? 'bg-[rgba(28,20,15,0.85)] hover:bg-[#D97706] border-[#57534E] hover:border-[#D97706] text-[#F5E6D3] hover:text-[#1C140F]'
+                : 'bg-[rgba(10,14,23,0.78)] hover:bg-[#38BDF8] border-[rgba(248,250,252,0.16)] hover:border-[#38BDF8] text-[#F8FAFC] hover:text-[#0A0E17]'
+            }`}
           >
             {isTimelineCollapsed ? (
               <>
-                <ChevronUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#1e1b4b]" />
+                <ChevronUp className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 <span>Show Mission Timeline</span>
               </>
             ) : (
               <>
-                <ChevronDown className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#1e1b4b]" />
+                <ChevronDown className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 <span>Hide Timeline</span>
               </>
             )}
@@ -284,26 +368,62 @@ export default function App() {
 
           {/* Timeline Carousel Strip: Simplistic & Mobile Friendly */}
           {!isTimelineCollapsed && (
-            <div className="pointer-events-auto w-full max-w-3xl bg-[#fffdf7] border-[3px] border-[#1e1b4b] rounded-xl sm:rounded-2xl p-1 sm:p-1.5 shadow-[0_6px_0_#1e1b4b] flex items-center gap-1.5 sm:gap-2 overflow-x-auto scrollbar-none snap-x snap-mandatory">
+            <div
+              className={`pointer-events-auto w-full max-w-3xl backdrop-blur-md border rounded-xl sm:rounded-2xl p-1 sm:p-1.5 shadow-lg flex items-center gap-1.5 sm:gap-2 overflow-x-auto scrollbar-none snap-x snap-mandatory ${
+                isMars
+                  ? 'bg-[rgba(28,20,15,0.85)] border-[#57534E]'
+                  : 'bg-[rgba(10,14,23,0.78)] border-[rgba(248,250,252,0.16)]'
+              }`}
+            >
               {filteredArtifacts.map((artifact: Artifact) => {
                 const isSelected = selectedArtifact?.id === artifact.id;
                 return (
                   <button
                     key={artifact.id}
                     onClick={() => handleSelectArtifact(artifact)}
-                    className={`flex-shrink-0 snap-center min-w-[105px] sm:min-w-[160px] px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-lg sm:rounded-xl border-2 text-left transition-all ${
+                    className={`flex-shrink-0 snap-center min-w-[105px] sm:min-w-[160px] px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-lg sm:rounded-xl border text-left transition-all ${
                       isSelected
-                        ? 'bg-[#fb923c] border-[#1e1b4b] text-[#1e1b4b] shadow-[0_3px_0_#1e1b4b] scale-[1.03]'
-                        : 'bg-[#fffbeb] border-[#1e1b4b]/20 text-[#1e1b4b] hover:bg-[#fef08a] hover:border-[#1e1b4b]'
+                        ? isMars
+                          ? 'bg-[#D97706] border-[#D97706] text-[#1C140F]'
+                          : 'bg-[#38BDF8] border-[#38BDF8] text-[#0A0E17]'
+                        : isMars
+                        ? 'bg-[#291D16] border-[#44403C] text-[#F5E6D3] hover:bg-[#44403C] hover:border-[#D97706]'
+                        : 'bg-[rgba(15,23,42,0.65)] border-[rgba(248,250,252,0.14)] text-[#F8FAFC] hover:bg-[rgba(248,250,252,0.1)] hover:border-[rgba(248,250,252,0.3)]'
                     }`}
                   >
-                    <div className="text-[9px] sm:text-[10px] font-black uppercase tracking-wider mb-0.5 flex items-center gap-1 sm:gap-1.5 font-mono tabular-nums">
-                      <span className={isSelected ? 'text-[#1e1b4b]' : 'text-[#b45309]'}>
+                    <div className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider mb-0.5 flex items-center gap-1 sm:gap-1.5 font-mono tabular-nums">
+                      <span
+                        className={
+                          isSelected
+                            ? isMars
+                              ? 'text-[#1C140F]'
+                              : 'text-[#0A0E17]'
+                            : isMars
+                            ? 'text-[#D97706]'
+                            : 'text-[#38BDF8]'
+                        }
+                      >
                         {artifact.year}
                       </span>
-                      {isSelected && <span className="w-1.5 h-1.5 rounded-full bg-[#1e1b4b]" />}
+                      {isSelected && (
+                        <span
+                          className={`w-1.5 h-1.5 rounded-full ${
+                            isMars ? 'bg-[#1C140F]' : 'bg-[#0A0E17]'
+                          }`}
+                        />
+                      )}
                     </div>
-                    <h4 className="text-[11px] sm:text-xs font-extrabold truncate text-[#1e1b4b]">
+                    <h4
+                      className={`font-['Chakra_Petch'] text-[11px] sm:text-xs font-bold truncate ${
+                        isSelected
+                          ? isMars
+                            ? 'text-[#1C140F]'
+                            : 'text-[#0A0E17]'
+                          : isMars
+                          ? 'text-[#F5E6D3]'
+                          : 'text-[#F8FAFC]'
+                      }`}
+                    >
                       {artifact.moniker}
                     </h4>
                   </button>
@@ -316,21 +436,37 @@ export default function App() {
 
       {/* 5. Small Target Popup (Appears after zoom) */}
       {selectedArtifact && !isDossierOpen && showSmallPopup && (
-        <div className="absolute top-16 right-3 sm:right-4 left-3 sm:left-auto w-auto sm:w-64 max-w-[260px] z-30 bg-[#1e1f20]/95 border border-white/10 rounded-xl p-2.5 sm:p-3 shadow-2xl backdrop-blur-xl animate-in fade-in slide-in-from-right-4 duration-300">
-          <div className="flex items-center justify-between gap-2 border-b border-white/10 pb-1.5">
-            <div 
-              style={{ color: getArtifactColor(selectedArtifact) }}
-              className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-widest font-mono"
+        <div
+          className={`absolute top-16 right-3 sm:right-4 left-3 sm:left-auto w-auto sm:w-64 max-w-[260px] z-30 rounded-xl p-2.5 sm:p-3 shadow-xl backdrop-blur-md border animate-in fade-in slide-in-from-right-4 duration-300 ${
+            isMars
+              ? 'bg-[rgba(28,20,15,0.88)] border-[#57534E] text-[#F5E6D3]'
+              : 'bg-[rgba(10,14,23,0.82)] border-[rgba(248,250,252,0.16)] text-[#F8FAFC]'
+          }`}
+        >
+          <div
+            className={`flex items-center justify-between gap-2 border-b pb-1.5 ${
+              isMars ? 'border-[#57534E]/60' : 'border-[rgba(248,250,252,0.14)]'
+            }`}
+          >
+            <div
+              className={`flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-widest font-mono ${
+                isMars ? 'text-[#D97706]' : 'text-[#38BDF8]'
+              }`}
             >
-              <span 
-                style={{ backgroundColor: getArtifactColor(selectedArtifact) }}
-                className="w-1.5 h-1.5 rounded-full animate-pulse" 
+              <span
+                className={`w-1.5 h-1.5 rounded-full animate-pulse ${
+                  isMars ? 'bg-[#D97706]' : 'bg-[#38BDF8]'
+                }`}
               />
               Target Acquired
             </div>
             <button
               onClick={() => setSelectedArtifact(null)}
-              className="p-1 rounded-md hover:bg-white/10 text-zinc-400 hover:text-white transition-colors"
+              className={`p-1 rounded-md transition-colors ${
+                isMars
+                  ? 'hover:bg-[#44403C] text-[#A8A29E] hover:text-[#F5E6D3]'
+                  : 'hover:bg-[rgba(248,250,252,0.1)] text-[#94A3B8] hover:text-[#F8FAFC]'
+              }`}
               aria-label="Close target info"
             >
               <X className="w-3.5 h-3.5" />
@@ -338,10 +474,18 @@ export default function App() {
           </div>
 
           <div className="mt-2 space-y-0.5">
-            <h3 style={{ color: getArtifactColor(selectedArtifact) }} className="text-sm font-bold tracking-tight truncate">
+            <h3
+              className={`font-['Chakra_Petch'] text-sm font-bold tracking-tight truncate ${
+                isMars ? 'text-[#F5E6D3]' : 'text-[#F8FAFC]'
+              }`}
+            >
               {selectedArtifact.name}
             </h3>
-            <div className="text-[10px] font-mono text-zinc-400 truncate">
+            <div
+              className={`text-[10px] font-mono truncate ${
+                isMars ? 'text-[#A8A29E]' : 'text-[#94A3B8]'
+              }`}
+            >
               {selectedArtifact.agency} • {selectedArtifact.year} • {selectedArtifact.locationName}
             </div>
           </div>
@@ -351,7 +495,11 @@ export default function App() {
               playTelemetryBeep(650);
               setIsDossierOpen(true);
             }}
-            className="mt-2.5 w-full py-1.5 px-3 rounded-lg bg-white text-zinc-950 font-semibold text-xs flex items-center justify-center gap-1 transition-all hover:bg-zinc-100 shadow-md"
+            className={`font-['Chakra_Petch'] mt-2.5 w-full py-1.5 px-3 rounded-lg font-bold text-xs flex items-center justify-center gap-1 transition-all ${
+              isMars
+                ? 'bg-[#D97706] hover:bg-[#C87D32] text-[#1C140F]'
+                : 'bg-[#38BDF8] hover:bg-[#7DD3FC] text-[#0A0E17]'
+            }`}
           >
             <span>Get details</span>
             <ChevronRight className="w-3.5 h-3.5" />

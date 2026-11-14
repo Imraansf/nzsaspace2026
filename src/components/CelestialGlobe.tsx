@@ -340,10 +340,10 @@ export const CelestialGlobe: React.FC<CelestialGlobeProps> = React.memo(({
       const pinGeo = new THREE.SphereGeometry(isSelected ? 0.045 : 0.03, 16, 16);
       const pinMat = new THREE.MeshBasicMaterial({
         color: isSelected
-          ? 0x38bdf8
+          ? 0xf8fafc
           : artifact.status === 'active_passive'
-          ? 0x34d399
-          : 0xf59e0b,
+          ? 0x00e599
+          : 0x10b981,
       });
       const pinMesh = new THREE.Mesh(pinGeo, pinMat);
       pinGroup.add(pinMesh);
@@ -351,10 +351,10 @@ export const CelestialGlobe: React.FC<CelestialGlobeProps> = React.memo(({
       // Outer glowing beacon ring
       const ringGeo = new THREE.RingGeometry(0.045, 0.065, 24);
       const ringMat = new THREE.MeshBasicMaterial({
-        color: isSelected ? 0x38bdf8 : 0xf59e0b,
+        color: isSelected ? 0xf8fafc : 0x00e599,
         side: THREE.DoubleSide,
         transparent: true,
-        opacity: isSelected ? 0.8 : 0.45,
+        opacity: isSelected ? 0.9 : 0.55,
       });
       const ringMesh = new THREE.Mesh(ringGeo, ringMat);
       pinGroup.add(ringMesh);
@@ -407,19 +407,19 @@ export const CelestialGlobe: React.FC<CelestialGlobeProps> = React.memo(({
       );
       const ringMat = new THREE.MeshBasicMaterial({
         color: isSelected
-          ? 0xe879f9
+          ? 0xf8fafc
           : landmark.type === 'volcano'
-          ? 0xf87171
+          ? 0x7c3aed
           : landmark.type === 'canyon'
-          ? 0xfbbf24
+          ? 0x00e599
           : landmark.type === 'crater'
-          ? 0xa855f7
+          ? 0x9333ea
           : landmark.type === 'mare'
-          ? 0x60a5fa
-          : 0x34d399,
+          ? 0xe0f2fe
+          : 0x10b981,
         side: THREE.DoubleSide,
         transparent: true,
-        opacity: isSelected ? 0.85 : 0.4,
+        opacity: isSelected ? 0.9 : 0.5,
       });
       const ringMesh = new THREE.Mesh(ringGeo, ringMat);
       lmGroup.add(ringMesh);
@@ -427,7 +427,7 @@ export const CelestialGlobe: React.FC<CelestialGlobeProps> = React.memo(({
       // Central hit dot
       const dotGeo = new THREE.SphereGeometry(0.016, 12, 12);
       const dotMat = new THREE.MeshBasicMaterial({
-        color: isSelected ? 0xffffff : 0xd8b4fe,
+        color: isSelected ? 0x00e599 : 0xf8fafc,
       });
       const dotMesh = new THREE.Mesh(dotGeo, dotMat);
       lmGroup.add(dotMesh);
@@ -634,36 +634,80 @@ export const CelestialGlobe: React.FC<CelestialGlobeProps> = React.memo(({
 
       {/* Hover preview tooltip */}
       {hoveredArtifact && (
-        <div className="absolute bottom-24 left-1/2 -translate-x-1/2 z-20 pointer-events-none bg-[#1e1f20]/95 border border-white/10 rounded-2xl px-4 py-3 shadow-2xl backdrop-blur-xl text-center max-w-xs animate-in fade-in zoom-in-95">
-          <div className="flex items-center justify-center gap-2 text-[10px] font-medium uppercase tracking-widest text-zinc-400">
+        <div
+          className={`absolute bottom-24 left-1/2 -translate-x-1/2 z-20 pointer-events-none border rounded-2xl px-4 py-3 shadow-xl backdrop-blur-md text-center max-w-xs animate-in fade-in zoom-in-95 ${
+            body === 'mars'
+              ? 'bg-[rgba(28,20,15,0.88)] border-[#57534E]'
+              : 'bg-[rgba(10,14,23,0.86)] border-[rgba(248,250,252,0.18)]'
+          }`}
+        >
+          <div
+            className={`flex items-center justify-center gap-2 text-[10px] font-mono uppercase tracking-widest ${
+              body === 'mars' ? 'text-[#D97706]' : 'text-[#38BDF8]'
+            }`}
+          >
             <span>{hoveredArtifact.year}</span>
-            <span className="w-1 h-1 rounded-full bg-zinc-600" />
+            <span
+              className={`w-1 h-1 rounded-full ${
+                body === 'mars' ? 'bg-[#A8A29E]' : 'bg-[#94A3B8]'
+              }`}
+            />
             <span className="truncate">{hoveredArtifact.locationName}</span>
           </div>
-          <h4 className="text-sm font-semibold text-white mt-1">
+          <h4
+            className={`font-['Chakra_Petch'] text-sm font-bold mt-1 ${
+              body === 'mars' ? 'text-[#F5E6D3]' : 'text-[#F8FAFC]'
+            }`}
+          >
             {hoveredArtifact.name}
           </h4>
-          <p className="text-xs text-zinc-400 mt-1 line-clamp-1 italic">
+          <p
+            className={`font-['Space_Grotesk'] text-xs mt-1 line-clamp-1 italic ${
+              body === 'mars' ? 'text-[#A8A29E]' : 'text-[#94A3B8]'
+            }`}
+          >
             "{hoveredArtifact.story.headline}"
           </p>
         </div>
       )}
 
       {hoveredLandmark && !hoveredArtifact && (
-        <div className="absolute bottom-24 left-1/2 -translate-x-1/2 z-20 pointer-events-none bg-[#1e1f20]/95 border border-white/10 rounded-2xl px-4 py-3 shadow-2xl backdrop-blur-xl text-center max-w-xs animate-in fade-in zoom-in-95">
-          <div className="flex items-center justify-center gap-2 text-[10px] font-medium uppercase tracking-widest text-amber-400">
+        <div
+          className={`absolute bottom-24 left-1/2 -translate-x-1/2 z-20 pointer-events-none border rounded-2xl px-4 py-3 shadow-xl backdrop-blur-md text-center max-w-xs animate-in fade-in zoom-in-95 ${
+            body === 'mars'
+              ? 'bg-[rgba(28,20,15,0.88)] border-[#57534E]'
+              : 'bg-[rgba(10,14,23,0.86)] border-[rgba(248,250,252,0.18)]'
+          }`}
+        >
+          <div
+            className={`flex items-center justify-center gap-2 text-[10px] font-mono uppercase tracking-widest ${
+              body === 'mars' ? 'text-[#D97706]' : 'text-[#94A3B8]'
+            }`}
+          >
             <span>{hoveredLandmark.type}</span>
             {hoveredLandmark.diameterKm && (
               <>
-                <span className="w-1 h-1 rounded-full bg-zinc-600" />
+                <span
+                  className={`w-1 h-1 rounded-full ${
+                    body === 'mars' ? 'bg-[#D97706]' : 'bg-[#38BDF8]'
+                  }`}
+                />
                 <span>{hoveredLandmark.diameterKm} km</span>
               </>
             )}
           </div>
-          <h4 className="text-sm font-semibold text-white mt-1">
+          <h4
+            className={`font-['Chakra_Petch'] text-sm font-bold mt-1 ${
+              body === 'mars' ? 'text-[#F5E6D3]' : 'text-[#F8FAFC]'
+            }`}
+          >
             {hoveredLandmark.name}
           </h4>
-          <p className="text-xs text-zinc-400 mt-1 line-clamp-2 leading-snug">
+          <p
+            className={`font-['Space_Grotesk'] text-xs mt-1 line-clamp-2 leading-snug ${
+              body === 'mars' ? 'text-[#A8A29E]' : 'text-[#94A3B8]'
+            }`}
+          >
             {hoveredLandmark.description}
           </p>
         </div>
