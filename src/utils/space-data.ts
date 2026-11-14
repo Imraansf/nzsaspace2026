@@ -4,10 +4,6 @@ import { Artifact, PlanetaryLandmark, CelestialBody } from '../types/space';
  * Source of truth for artifact category colors
  */
 export const getArtifactColor = (artifact: Artifact, isSelected?: boolean): string => {
-  if (artifact.body === 'mars') {
-    if (isSelected) return '#F5E6D3';
-    return artifact.category === 'rover' ? '#C87D32' : '#D97706';
-  }
   if (isSelected) return '#F8FAFC';
   switch (artifact.category) {
     case 'interstellar_probe':
@@ -23,7 +19,7 @@ export const getArtifactColor = (artifact: Artifact, isSelected?: boolean): stri
     case 'uncrewed_lander':
       return '#0EA5E9'; // Ice Blue Landers
     case 'rover':
-      return '#38BDF8'; // Ice Blue Rovers
+      return '#7C3AED'; // Cosmic Purple Rovers
     default:
       return '#E0F2FE'; // Ice White for others
   }

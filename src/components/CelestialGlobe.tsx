@@ -634,80 +634,36 @@ export const CelestialGlobe: React.FC<CelestialGlobeProps> = React.memo(({
 
       {/* Hover preview tooltip */}
       {hoveredArtifact && (
-        <div
-          className={`absolute bottom-24 left-1/2 -translate-x-1/2 z-20 pointer-events-none border rounded-2xl px-4 py-3 shadow-xl backdrop-blur-md text-center max-w-xs animate-in fade-in zoom-in-95 ${
-            body === 'mars'
-              ? 'bg-[rgba(28,20,15,0.88)] border-[#57534E]'
-              : 'bg-[rgba(10,14,23,0.86)] border-[rgba(248,250,252,0.18)]'
-          }`}
-        >
-          <div
-            className={`flex items-center justify-center gap-2 text-[10px] font-mono uppercase tracking-widest ${
-              body === 'mars' ? 'text-[#D97706]' : 'text-[#38BDF8]'
-            }`}
-          >
+        <div className="absolute bottom-24 left-1/2 -translate-x-1/2 z-20 pointer-events-none bg-[rgba(6,9,15,0.94)] border-2 border-[#38BDF8] rounded-2xl px-4 py-3 shadow-[0_0_24px_rgba(56,189,248,0.3)] backdrop-blur-xl text-center max-w-xs animate-in fade-in zoom-in-95">
+          <div className="flex items-center justify-center gap-2 text-[10px] font-medium uppercase tracking-widest text-[#38BDF8]">
             <span>{hoveredArtifact.year}</span>
-            <span
-              className={`w-1 h-1 rounded-full ${
-                body === 'mars' ? 'bg-[#A8A29E]' : 'bg-[#94A3B8]'
-              }`}
-            />
+            <span className="w-1 h-1 rounded-full bg-[#7C3AED]" />
             <span className="truncate">{hoveredArtifact.locationName}</span>
           </div>
-          <h4
-            className={`font-['Chakra_Petch'] text-sm font-bold mt-1 ${
-              body === 'mars' ? 'text-[#F5E6D3]' : 'text-[#F8FAFC]'
-            }`}
-          >
+          <h4 className="text-sm font-semibold text-[#F8FAFC] mt-1">
             {hoveredArtifact.name}
           </h4>
-          <p
-            className={`font-['Space_Grotesk'] text-xs mt-1 line-clamp-1 italic ${
-              body === 'mars' ? 'text-[#A8A29E]' : 'text-[#94A3B8]'
-            }`}
-          >
+          <p className="text-xs text-[#E0F2FE]/80 mt-1 line-clamp-1 italic">
             "{hoveredArtifact.story.headline}"
           </p>
         </div>
       )}
 
       {hoveredLandmark && !hoveredArtifact && (
-        <div
-          className={`absolute bottom-24 left-1/2 -translate-x-1/2 z-20 pointer-events-none border rounded-2xl px-4 py-3 shadow-xl backdrop-blur-md text-center max-w-xs animate-in fade-in zoom-in-95 ${
-            body === 'mars'
-              ? 'bg-[rgba(28,20,15,0.88)] border-[#57534E]'
-              : 'bg-[rgba(10,14,23,0.86)] border-[rgba(248,250,252,0.18)]'
-          }`}
-        >
-          <div
-            className={`flex items-center justify-center gap-2 text-[10px] font-mono uppercase tracking-widest ${
-              body === 'mars' ? 'text-[#D97706]' : 'text-[#94A3B8]'
-            }`}
-          >
+        <div className="absolute bottom-24 left-1/2 -translate-x-1/2 z-20 pointer-events-none bg-[rgba(6,9,15,0.94)] border-2 border-[#7C3AED] rounded-2xl px-4 py-3 shadow-[0_0_24px_rgba(124,58,237,0.3)] backdrop-blur-xl text-center max-w-xs animate-in fade-in zoom-in-95">
+          <div className="flex items-center justify-center gap-2 text-[10px] font-medium uppercase tracking-widest text-[#A78BFA]">
             <span>{hoveredLandmark.type}</span>
             {hoveredLandmark.diameterKm && (
               <>
-                <span
-                  className={`w-1 h-1 rounded-full ${
-                    body === 'mars' ? 'bg-[#D97706]' : 'bg-[#38BDF8]'
-                  }`}
-                />
+                <span className="w-1 h-1 rounded-full bg-[#38BDF8]" />
                 <span>{hoveredLandmark.diameterKm} km</span>
               </>
             )}
           </div>
-          <h4
-            className={`font-['Chakra_Petch'] text-sm font-bold mt-1 ${
-              body === 'mars' ? 'text-[#F5E6D3]' : 'text-[#F8FAFC]'
-            }`}
-          >
+          <h4 className="text-sm font-semibold text-[#F8FAFC] mt-1">
             {hoveredLandmark.name}
           </h4>
-          <p
-            className={`font-['Space_Grotesk'] text-xs mt-1 line-clamp-2 leading-snug ${
-              body === 'mars' ? 'text-[#A8A29E]' : 'text-[#94A3B8]'
-            }`}
-          >
+          <p className="text-xs text-[#E0F2FE]/80 mt-1 line-clamp-2 leading-snug">
             {hoveredLandmark.description}
           </p>
         </div>

@@ -170,12 +170,8 @@ export const ModelInspectorModal: React.FC<ModelInspectorModalProps> = ({
     const hemiLight = new THREE.HemisphereLight(0x0f172a, bounceColor, 0.65);
     scene.add(hemiLight);
 
-    // 4. Zone Accent Rim Light
-    const rimPoint = new THREE.PointLight(
-      artifact.body === 'mars' ? 0xd97706 : 0x38bdf8,
-      1.8,
-      20
-    );
+    // 4. Cyan Accent Rim Light (HUD aesthetic)
+    const rimPoint = new THREE.PointLight(0x06b6d4, 1.8, 20);
     rimPoint.position.set(-4, 3, -4);
     scene.add(rimPoint);
 
@@ -850,65 +846,27 @@ export const ModelInspectorModal: React.FC<ModelInspectorModalProps> = ({
 
   if (!artifact) return null;
 
-  const isMars = artifact.body === 'mars';
-
   return (
-    <div
-      className={`fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 backdrop-blur-md animate-in fade-in duration-200 ${
-        isMars ? 'bg-[#1C140F]/88' : 'bg-[#06090F]/85'
-      }`}
-    >
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-[#06090F]/85 backdrop-blur-md animate-in fade-in duration-200">
       {/* Modal Container */}
-      <div
-        className={`relative w-full max-w-5xl h-[88vh] max-h-[780px] rounded-3xl shadow-2xl flex flex-col overflow-hidden border ${
-          isMars
-            ? 'bg-[#291D16] border-[#57534E] text-[#F5E6D3]'
-            : 'bg-[rgba(10,14,23,0.92)] border-[rgba(248,250,252,0.18)] text-[#F8FAFC]'
-        }`}
-      >
+      <div className="relative w-full max-w-5xl h-[88vh] max-h-[780px] bg-[#0D131F] border-2 border-[#38BDF8] rounded-3xl shadow-[0_0_36px_rgba(56,189,248,0.25)] flex flex-col overflow-hidden">
         {/* Top Header */}
-        <div
-          className={`px-5 py-3.5 border-b flex items-center justify-between gap-4 shrink-0 ${
-            isMars
-              ? 'bg-[#1C140F] border-[#57534E]'
-              : 'bg-[rgba(15,23,42,0.75)] border-[rgba(248,250,252,0.14)]'
-          }`}
-        >
+        <div className="px-5 py-3.5 bg-[#06090F] border-b border-[#38BDF8]/25 flex items-center justify-between gap-4 shrink-0">
           <div className="flex items-center gap-3 min-w-0">
-            <div
-              className={`w-9 h-9 rounded-full border flex items-center justify-center shrink-0 ${
-                isMars
-                  ? 'bg-[#291D16] border-[#57534E] text-[#D97706]'
-                  : 'bg-[rgba(10,14,23,0.85)] border-[rgba(248,250,252,0.18)] text-[#38BDF8]'
-              }`}
-            >
-              <Cpu className="w-4 h-4" />
+            <div className="w-9 h-9 rounded-full bg-[#38BDF8]/10 border border-[#38BDF8]/40 flex items-center justify-center text-[#38BDF8] shrink-0">
+              <Cpu className="w-4 h-4 text-[#38BDF8]" />
             </div>
 
             <div className="min-w-0">
               <div className="flex items-center gap-2">
-                <span
-                  className={`text-[10px] font-mono px-2 py-0.5 rounded-full border font-bold uppercase tracking-wider shrink-0 ${
-                    isMars
-                      ? 'bg-[#D97706]/15 text-[#D97706] border-[#D97706]/40'
-                      : 'bg-[rgba(56,189,248,0.12)] text-[#38BDF8] border-[rgba(56,189,248,0.3)]'
-                  }`}
-                >
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/40 font-bold uppercase tracking-wider shrink-0">
                   3D CAD INSPECTOR
                 </span>
-                <span
-                  className={`text-xs font-mono truncate ${
-                    isMars ? 'text-[#A8A29E]' : 'text-[#94A3B8]'
-                  }`}
-                >
+                <span className="text-xs font-mono text-[#E0F2FE]/75 truncate">
                   {artifact.agency} • {artifact.date}
                 </span>
               </div>
-              <h3
-                className={`font-['Chakra_Petch'] text-base sm:text-lg font-bold tracking-wide truncate mt-0.5 ${
-                  isMars ? 'text-[#F5E6D3]' : 'text-[#F8FAFC]'
-                }`}
-              >
+              <h3 className="text-base sm:text-lg font-bold text-[#F8FAFC] tracking-wide truncate mt-0.5">
                 {artifact.name} ({artifact.moniker})
               </h3>
             </div>
@@ -920,11 +878,7 @@ export const ModelInspectorModal: React.FC<ModelInspectorModalProps> = ({
               playTelemetryBeep(450);
               onClose();
             }}
-            className={`p-2 rounded-full transition-colors ${
-              isMars
-                ? 'hover:bg-[#44403C] text-[#A8A29E] hover:text-[#F5E6D3]'
-                : 'hover:bg-[rgba(248,250,252,0.1)] text-[#94A3B8] hover:text-[#F8FAFC]'
-            }`}
+            className="p-2 rounded-full hover:bg-[#38BDF8]/20 text-[#E0F2FE]/75 hover:text-[#F8FAFC] transition-colors"
             title="Close Model Inspector"
           >
             <X className="w-5 h-5" />
@@ -934,11 +888,7 @@ export const ModelInspectorModal: React.FC<ModelInspectorModalProps> = ({
         {/* Main Content: 3D Viewport on Left, Telemetry Specs on Right */}
         <div className="flex-1 flex flex-col lg:flex-row overflow-hidden relative">
           {/* 3D WebGL Canvas Viewport */}
-          <div
-            className={`flex-1 relative h-64 sm:h-80 lg:h-full ${
-              isMars ? 'bg-[#1C140F]' : 'bg-[#06090F]'
-            }`}
-          >
+          <div className="flex-1 relative h-64 sm:h-80 lg:h-full bg-[#06090F]">
             {/* Three.js Container */}
             <div
               ref={mountRef}
@@ -948,26 +898,16 @@ export const ModelInspectorModal: React.FC<ModelInspectorModalProps> = ({
             {/* View Controls Toolbar (Floating on 3D canvas) */}
             <div className="absolute top-4 left-4 z-10 flex flex-wrap items-center gap-2">
               {/* Visual Shader Mode Toggles */}
-              <div
-                className={`rounded-full p-1 backdrop-blur-md shadow-xl flex items-center text-[10px] font-medium border ${
-                  isMars
-                    ? 'bg-[rgba(28,20,15,0.88)] border-[#57534E]'
-                    : 'bg-[rgba(10,14,23,0.82)] border-[rgba(248,250,252,0.16)]'
-                }`}
-              >
+              <div className="bg-[rgba(6,9,15,0.90)] border border-[#38BDF8]/50 rounded-full p-1 backdrop-blur-md shadow-xl flex items-center text-[10px] font-medium">
                 <button
                   onClick={() => {
                     playTelemetryBeep(600);
                     setVisualMode('operational');
                   }}
-                  className={`font-['Chakra_Petch'] px-3 py-1.5 rounded-full transition-all flex items-center gap-1.5 ${
+                  className={`px-3 py-1.5 rounded-full transition-all flex items-center gap-1.5 ${
                     visualMode === 'operational'
-                      ? isMars
-                        ? 'bg-[#D97706] text-[#1C140F] font-bold'
-                        : 'bg-[#38BDF8] text-[#0A0E17] font-bold'
-                      : isMars
-                      ? 'text-[#A8A29E] hover:text-[#F5E6D3]'
-                      : 'text-[#94A3B8] hover:text-[#F8FAFC]'
+                      ? 'bg-[#38BDF8] text-[#06090F] font-bold shadow-sm'
+                      : 'text-[#E0F2FE]/75 hover:text-[#F8FAFC]'
                   }`}
                   title="Clean Metallic PBR Shading"
                 >
@@ -980,14 +920,10 @@ export const ModelInspectorModal: React.FC<ModelInspectorModalProps> = ({
                     playTelemetryBeep(650);
                     setVisualMode('dust');
                   }}
-                  className={`font-['Chakra_Petch'] px-3 py-1.5 rounded-full transition-all flex items-center gap-1.5 ${
+                  className={`px-3 py-1.5 rounded-full transition-all flex items-center gap-1.5 ${
                     visualMode === 'dust'
-                      ? isMars
-                        ? 'bg-[#C87D32] text-[#1C140F] font-bold'
-                        : 'bg-[#38BDF8] text-[#0A0E17] font-bold'
-                      : isMars
-                      ? 'text-[#A8A29E] hover:text-[#F5E6D3]'
-                      : 'text-[#94A3B8] hover:text-[#F8FAFC]'
+                      ? 'bg-[#7C3AED] text-[#F8FAFC] font-bold shadow-sm'
+                      : 'text-[#E0F2FE]/75 hover:text-[#F8FAFC]'
                   }`}
                   title="Dust Accumulation Weathering"
                 >
@@ -1000,14 +936,10 @@ export const ModelInspectorModal: React.FC<ModelInspectorModalProps> = ({
                     playTelemetryBeep(700);
                     setVisualMode('wireframe');
                   }}
-                  className={`font-['Chakra_Petch'] px-3 py-1.5 rounded-full transition-all flex items-center gap-1.5 ${
+                  className={`px-3 py-1.5 rounded-full transition-all flex items-center gap-1.5 ${
                     visualMode === 'wireframe'
-                      ? isMars
-                        ? 'bg-[#F5E6D3] text-[#1C140F] font-bold'
-                        : 'bg-[#F8FAFC] text-[#0A0E17] font-bold'
-                      : isMars
-                      ? 'text-[#A8A29E] hover:text-[#F5E6D3]'
-                      : 'text-[#94A3B8] hover:text-[#F8FAFC]'
+                      ? 'bg-[#F8FAFC] text-[#06090F] font-bold shadow-sm'
+                      : 'text-[#E0F2FE]/75 hover:text-[#F8FAFC]'
                   }`}
                   title="Tactical Titanium Wireframe"
                 >
@@ -1024,12 +956,8 @@ export const ModelInspectorModal: React.FC<ModelInspectorModalProps> = ({
                 }}
                 className={`p-2 rounded-full border backdrop-blur-md transition-colors shadow-lg ${
                   isAutoRotating
-                    ? isMars
-                      ? 'bg-[#D97706] border-[#D97706] text-[#1C140F]'
-                      : 'bg-[#38BDF8] border-[#38BDF8] text-[#0A0E17]'
-                    : isMars
-                    ? 'bg-[rgba(28,20,15,0.88)] border-[#57534E] text-[#A8A29E] hover:text-[#F5E6D3]'
-                    : 'bg-[rgba(10,14,23,0.82)] border-[rgba(248,250,252,0.16)] text-[#94A3B8] hover:text-[#F8FAFC]'
+                    ? 'bg-[#38BDF8] border-[#38BDF8] text-[#06090F]'
+                    : 'bg-[rgba(6,9,15,0.90)] border-[#38BDF8]/40 text-[#E0F2FE]/75 hover:text-[#F8FAFC]'
                 }`}
                 title={isAutoRotating ? 'Pause Auto-Rotation' : 'Resume Auto-Rotation'}
               >
@@ -1039,11 +967,7 @@ export const ModelInspectorModal: React.FC<ModelInspectorModalProps> = ({
               {/* Reset Camera View */}
               <button
                 onClick={handleResetCamera}
-                className={`p-2 rounded-full border backdrop-blur-md transition-colors shadow-lg ${
-                  isMars
-                    ? 'bg-[rgba(28,20,15,0.88)] hover:bg-[#44403C] border-[#57534E] text-[#A8A29E] hover:text-[#F5E6D3]'
-                    : 'bg-[rgba(10,14,23,0.82)] hover:bg-[rgba(248,250,252,0.12)] border-[rgba(248,250,252,0.16)] text-[#94A3B8] hover:text-[#F8FAFC]'
-                }`}
+                className="p-2 rounded-full bg-[rgba(6,9,15,0.90)] hover:bg-[#38BDF8]/20 border border-[#38BDF8]/40 text-[#E0F2FE]/80 hover:text-[#F8FAFC] backdrop-blur-md transition-colors shadow-lg"
                 title="Reset Camera View"
               >
                 <Compass className="w-3.5 h-3.5" />
@@ -1051,148 +975,64 @@ export const ModelInspectorModal: React.FC<ModelInspectorModalProps> = ({
             </div>
 
             {/* Bottom Orbit Help Overlay */}
-            <div
-              className={`font-['Space_Grotesk'] absolute bottom-4 left-4 z-10 pointer-events-none text-[10px] font-medium border rounded-full px-3 py-1 backdrop-blur-md ${
-                isMars
-                  ? 'text-[#A8A29E] bg-[rgba(28,20,15,0.85)] border-[#57534E]'
-                  : 'text-[#94A3B8] bg-[rgba(10,14,23,0.78)] border-[rgba(248,250,252,0.16)]'
-              }`}
-            >
-              <span className={isMars ? 'text-[#D97706]' : 'text-[#38BDF8]'}>Drag</span> to orbit •{' '}
-              <span className={isMars ? 'text-[#D97706]' : 'text-[#38BDF8]'}>Scroll</span> to zoom
+            <div className="absolute bottom-4 left-4 z-10 pointer-events-none text-[10px] font-medium text-[#E0F2FE]/75 bg-[rgba(6,9,15,0.90)] border border-[#38BDF8]/35 rounded-full px-3 py-1 backdrop-blur-md">
+              <span className="text-[#38BDF8]">Drag</span> to orbit •{' '}
+              <span className="text-[#38BDF8]">Scroll</span> to zoom
             </div>
           </div>
 
           {/* Telemetry Side Panel: NASA Spec Sheet */}
           {specs && (
-            <div
-              className={`w-full lg:w-96 border-t lg:border-t-0 lg:border-l p-6 flex flex-col gap-5 overflow-y-auto ${
-                isMars
-                  ? 'bg-[#291D16] border-[#57534E]'
-                  : 'bg-[rgba(10,14,23,0.88)] border-[rgba(248,250,252,0.14)]'
-              }`}
-            >
+            <div className="w-full lg:w-96 bg-[#0D131F] border-t lg:border-t-0 lg:border-l border-[#38BDF8]/25 p-6 flex flex-col gap-5 overflow-y-auto">
               <div>
-                <span
-                  className={`text-[10px] font-mono font-bold tracking-wider uppercase block mb-1 ${
-                    isMars ? 'text-[#D97706]' : 'text-[#38BDF8]'
-                  }`}
-                >
+                <span className="text-[10px] font-mono font-bold tracking-wider uppercase text-[#38BDF8] block mb-1">
                   SYSTEM TELEMETRY
                 </span>
-                <h4
-                  className={`font-['Chakra_Petch'] text-base font-bold ${
-                    isMars ? 'text-[#F5E6D3]' : 'text-[#F8FAFC]'
-                  }`}
-                >
+                <h4 className="text-base font-bold font-mono text-[#F8FAFC]">
                   Engineering Specifications
                 </h4>
               </div>
 
               {/* Specs Grid */}
               <div className="grid grid-cols-2 gap-2 text-xs font-mono">
-                <div
-                  className={`p-4 rounded-2xl border ${
-                    isMars
-                      ? 'bg-[#1C140F] border-[#44403C]'
-                      : 'bg-[rgba(15,23,42,0.65)] border-[rgba(248,250,252,0.14)]'
-                  }`}
-                >
-                  <div
-                    className={`flex items-center gap-1.5 text-[10px] uppercase font-bold tracking-wider ${
-                      isMars ? 'text-[#A8A29E]' : 'text-[#94A3B8]'
-                    }`}
-                  >
-                    <Weight className={`w-3.5 h-3.5 ${isMars ? 'text-[#D97706]' : 'text-[#38BDF8]'}`} />
+                <div className="p-4 rounded-2xl bg-[#06090F] border border-[#38BDF8]/25">
+                  <div className="flex items-center gap-1.5 text-[#E0F2FE]/65 text-[10px] uppercase font-bold tracking-wider">
+                    <Weight className="w-3.5 h-3.5 text-[#38BDF8]" />
                     <span>Launch Mass</span>
                   </div>
-                  <span
-                    className={`text-sm font-semibold mt-1 block ${
-                      isMars ? 'text-[#F5E6D3]' : 'text-[#F8FAFC]'
-                    }`}
-                  >
+                  <span className="text-sm font-semibold text-[#F8FAFC] mt-1 block">
                     {specs.mass}
                   </span>
                 </div>
 
-                <div
-                  className={`p-4 rounded-2xl border ${
-                    isMars
-                      ? 'bg-[#1C140F] border-[#44403C]'
-                      : 'bg-[rgba(15,23,42,0.65)] border-[rgba(248,250,252,0.14)]'
-                  }`}
-                >
-                  <div
-                    className={`flex items-center gap-1.5 text-[10px] uppercase font-bold tracking-wider ${
-                      isMars ? 'text-[#A8A29E]' : 'text-[#94A3B8]'
-                    }`}
-                  >
-                    <Ruler className={`w-3.5 h-3.5 ${isMars ? 'text-[#D97706]' : 'text-[#38BDF8]'}`} />
+                <div className="p-4 rounded-2xl bg-[#06090F] border border-[#38BDF8]/25">
+                  <div className="flex items-center gap-1.5 text-[#E0F2FE]/65 text-[10px] uppercase font-bold tracking-wider">
+                    <Ruler className="w-3.5 h-3.5 text-[#38BDF8]" />
                     <span>Dimensions</span>
                   </div>
-                  <span
-                    className={`text-sm font-semibold mt-1 block truncate ${
-                      isMars ? 'text-[#F5E6D3]' : 'text-[#F8FAFC]'
-                    }`}
-                  >
+                  <span className="text-sm font-semibold text-[#F8FAFC] mt-1 block truncate">
                     {specs.dimensions}
                   </span>
                 </div>
 
-                <div
-                  className={`col-span-2 p-4 rounded-2xl border ${
-                    isMars
-                      ? 'bg-[#1C140F] border-[#44403C]'
-                      : 'bg-[rgba(15,23,42,0.65)] border-[rgba(248,250,252,0.14)]'
-                  }`}
-                >
-                  <div
-                    className={`flex items-center gap-1.5 text-[10px] uppercase font-bold tracking-wider ${
-                      isMars ? 'text-[#A8A29E]' : 'text-[#94A3B8]'
-                    }`}
-                  >
-                    <Zap className={`w-3.5 h-3.5 ${isMars ? 'text-[#D97706]' : 'text-[#38BDF8]'}`} />
+                <div className="col-span-2 p-4 rounded-2xl bg-[#06090F] border border-[#38BDF8]/25">
+                  <div className="flex items-center gap-1.5 text-[#E0F2FE]/65 text-[10px] uppercase font-bold tracking-wider">
+                    <Zap className="w-3.5 h-3.5 text-[#38BDF8]" />
                     <span>Power Architecture</span>
                   </div>
-                  <span
-                    className={`font-['Space_Grotesk'] text-sm mt-1 block leading-snug ${
-                      isMars ? 'text-[#E7E5E4]' : 'text-[#F8FAFC]'
-                    }`}
-                  >
-                    {specs.powerSource}
-                  </span>
+                  <span className="text-sm text-[#E0F2FE] mt-1 block leading-snug">{specs.powerSource}</span>
                 </div>
 
-                <div
-                  className={`col-span-2 p-4 rounded-2xl border ${
-                    isMars
-                      ? 'bg-[#1C140F] border-[#44403C]'
-                      : 'bg-[rgba(15,23,42,0.65)] border-[rgba(248,250,252,0.14)]'
-                  }`}
-                >
-                  <div
-                    className={`flex items-center gap-1.5 text-[10px] uppercase font-bold tracking-wider ${
-                      isMars ? 'text-[#A8A29E]' : 'text-[#94A3B8]'
-                    }`}
-                  >
-                    <Radio className={`w-3.5 h-3.5 ${isMars ? 'text-[#D97706]' : 'text-[#38BDF8]'}`} />
+                <div className="col-span-2 p-4 rounded-2xl bg-[#06090F] border border-[#38BDF8]/25">
+                  <div className="flex items-center gap-1.5 text-[#E0F2FE]/65 text-[10px] uppercase font-bold tracking-wider">
+                    <Radio className="w-3.5 h-3.5 text-[#A78BFA]" />
                     <span>Resting Site</span>
                   </div>
-                  <span
-                    className={`font-['Space_Grotesk'] text-sm mt-1 block truncate ${
-                      isMars ? 'text-[#E7E5E4]' : 'text-[#F8FAFC]'
-                    }`}
-                  >
+                  <span className="text-sm text-[#E0F2FE] mt-1 block truncate">
                     {specs.location}
                   </span>
                   <div className="flex items-center gap-2 mt-2">
-                    <span
-                      className={`text-[10px] font-bold px-2 py-0.5 rounded-full border uppercase tracking-widest ${
-                        isMars
-                          ? 'bg-[#D97706]/15 text-[#D97706] border-[#D97706]/40'
-                          : 'bg-[rgba(56,189,248,0.12)] text-[#38BDF8] border-[rgba(56,189,248,0.3)]'
-                      }`}
-                    >
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/35 uppercase tracking-widest">
                       {specs.status}
                     </span>
                   </div>
@@ -1201,117 +1041,59 @@ export const ModelInspectorModal: React.FC<ModelInspectorModalProps> = ({
 
               {/* Science Instruments / Key Subsystems */}
               <div>
-                <span
-                  className={`font-['Chakra_Petch'] text-[10px] font-bold tracking-wider uppercase block mb-2 ${
-                    isMars ? 'text-[#D97706]' : 'text-[#38BDF8]'
-                  }`}
-                >
+                <span className="text-[10px] font-mono font-bold tracking-wider uppercase text-[#38BDF8] block mb-2">
                   SCIENCE PAYLOAD & SUBSYSTEMS
                 </span>
                 <div className="space-y-1.5">
                   {specs.components.map((comp, idx) => (
                     <div
                       key={idx}
-                      className={`font-['Space_Grotesk'] p-3 rounded-xl border text-xs flex items-center justify-between transition-colors ${
-                        isMars
-                          ? 'bg-[#1C140F] border-[#44403C] text-[#E7E5E4] hover:border-[#D97706]'
-                          : 'bg-[rgba(15,23,42,0.65)] border-[rgba(248,250,252,0.14)] text-[#F8FAFC] hover:border-[rgba(248,250,252,0.3)]'
-                      }`}
+                      className="p-3 rounded-xl bg-[#06090F] border border-[#38BDF8]/20 text-xs text-[#E0F2FE] flex items-center justify-between hover:border-[#38BDF8]/60 transition-colors"
                     >
                       <div className="flex items-center gap-3 truncate">
-                        <span
-                          className={`w-1.5 h-1.5 rounded-full shrink-0 ${
-                            isMars ? 'bg-[#D97706]' : 'bg-[#38BDF8]'
-                          }`}
-                        />
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#38BDF8] shrink-0" />
                         <span className="truncate">{comp}</span>
                       </div>
-                      <ChevronRight
-                        className={`w-3.5 h-3.5 shrink-0 ${
-                          isMars ? 'text-[#A8A29E]' : 'text-[#94A3B8]'
-                        }`}
-                      />
+                      <ChevronRight className="w-3.5 h-3.5 text-[#38BDF8]/60 shrink-0" />
                     </div>
                   ))}
                 </div>
               </div>
 
               {/* NASA 3D Resources Repository Link & CAD Status */}
-              <div
-                className={`p-4 rounded-2xl border space-y-3 ${
-                  isMars
-                    ? 'bg-[#1C140F] border-[#44403C]'
-                    : 'bg-[rgba(15,23,42,0.65)] border-[rgba(248,250,252,0.14)]'
-                }`}
-              >
-                <div className="flex items-center justify-between text-[10px] font-mono font-bold tracking-wider">
-                  <span className={`uppercase ${isMars ? 'text-[#A8A29E]' : 'text-[#94A3B8]'}`}>
-                    NASA 3D RESOURCES
-                  </span>
+              <div className="p-4 rounded-2xl bg-[#06090F] border border-[#38BDF8]/25 space-y-3">
+                <div className="flex items-center justify-between text-[10px] font-bold tracking-wider">
+                  <span className="text-[#E0F2FE]/65 uppercase">NASA 3D RESOURCES</span>
                   {loadedGltfSuccess ? (
-                    <span
-                      className={`flex items-center gap-1 font-bold ${
-                        isMars ? 'text-[#D97706]' : 'text-[#38BDF8]'
-                      }`}
-                    >
+                    <span className="flex items-center gap-1 text-[#38BDF8] font-bold">
                       <CheckCircle className="w-3 h-3" /> GLTF LOADED
                     </span>
                   ) : isLoadingGltf ? (
-                    <span
-                      className={`animate-pulse font-bold ${
-                        isMars ? 'text-[#C87D32]' : 'text-[#38BDF8]'
-                      }`}
-                    >
-                      FETCHING GLTF...
-                    </span>
+                    <span className="text-[#A78BFA] animate-pulse font-bold">FETCHING GLTF...</span>
                   ) : (
-                    <span className={`font-bold ${isMars ? 'text-[#F5E6D3]' : 'text-[#F8FAFC]'}`}>
-                      CAD MODEL ACTIVE
-                    </span>
+                    <span className="text-[#E0F2FE]/80 font-bold">CAD MODEL ACTIVE</span>
                   )}
                 </div>
-                <p
-                  className={`text-[10px] font-['Space_Grotesk'] leading-relaxed ${
-                    isMars ? 'text-[#A8A29E]' : 'text-[#94A3B8]'
-                  }`}
-                >
+                <p className="text-[10px] text-[#E0F2FE]/70 font-sans leading-relaxed">
                   Model assets curated from NASA's official 3D Resources GitHub repository (`nasa/NASA-3D-Resources`).
                 </p>
                 <a
                   href={artifact.nasa3dResourceUrl || 'https://github.com/nasa/NASA-3D-Resources'}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`font-['Chakra_Petch'] inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-[10px] font-bold transition-colors ${
-                    isMars
-                      ? 'bg-[#291D16] hover:bg-[#44403C] text-[#F5E6D3] border-[#57534E]'
-                      : 'bg-[rgba(10,14,23,0.8)] hover:bg-[rgba(248,250,252,0.12)] text-[#F8FAFC] border-[rgba(248,250,252,0.18)]'
-                  }`}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#0D131F] hover:bg-[#38BDF8]/15 text-[#F8FAFC] border border-[#38BDF8]/40 text-[10px] font-medium transition-colors"
                 >
-                  <ExternalLink className={`w-3 h-3 ${isMars ? 'text-[#D97706]' : 'text-[#38BDF8]'}`} />
+                  <ExternalLink className="w-3 h-3 text-[#38BDF8]" />
                   <span>NASA 3D Resources GitHub</span>
                 </a>
               </div>
 
               {/* Inspiring Scientific Legacy Callout */}
-              <div
-                className={`mt-auto p-4 rounded-2xl border text-xs ${
-                  isMars
-                    ? 'bg-[#1C140F] border-[#57534E] text-[#E7E5E4]'
-                    : 'bg-[rgba(15,23,42,0.65)] border-[rgba(248,250,252,0.16)] text-[#F8FAFC]'
-                }`}
-              >
-                <span
-                  className={`font-['Chakra_Petch'] font-bold text-[10px] block mb-1.5 uppercase tracking-widest ${
-                    isMars ? 'text-[#D97706]' : 'text-[#38BDF8]'
-                  }`}
-                >
+              <div className="mt-auto p-4 rounded-2xl bg-[#7C3AED]/10 border border-[#7C3AED]/35 text-xs text-[#E0F2FE] font-sans">
+                <span className="font-bold text-[#A78BFA] font-mono text-[10px] block mb-1.5 uppercase tracking-widest">
                   MISSION SIGNIFICANCE
                 </span>
-                <p
-                  className={`font-['Space_Grotesk'] text-[11px] leading-relaxed italic ${
-                    isMars ? 'text-[#F5E6D3]' : 'text-[#F8FAFC]'
-                  }`}
-                >
+                <p className="text-[11px] leading-relaxed text-[#F8FAFC] italic">
                   "{artifact.story.headline}"
                 </p>
               </div>
